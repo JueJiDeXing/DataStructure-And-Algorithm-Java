@@ -32,7 +32,7 @@ public class 题_开方平方 {
         for (int i = 1; i <= 100; i++) {
             sqrtMap[i] = Math.sqrt(sqrtMap[i - 1]);
         }
-        //二分查找
+        //二分
         int left = 0, right = 100;
         int ans = 0;
         while (left <= right) {
@@ -62,7 +62,7 @@ public class 题_开方平方 {
         for (int i = 1; i <= 100; i++) {
             sqrtMap[i] = sqrtMap[i - 1].sqrt(MathContext.DECIMAL64);
         }
-        //二分查找
+        //二分
         int left = 0, right = 100;
         int ans = 0;
         while (left <= right) {

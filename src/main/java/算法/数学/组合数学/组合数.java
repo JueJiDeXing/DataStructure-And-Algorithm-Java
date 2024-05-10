@@ -1,11 +1,9 @@
 package 算法.数学.组合数学;
 
+/**
+ n个元素选m个的方案数
+ */
 public class 组合数 {
-    public static void main(String[] args) {
-        组合数 test = new 组合数();
-        System.out.println(test.C3(11, 5));
-        System.out.println(test.C(11, 5));
-    }
 
     /**
      C(n, m) = C(n - 1, m) + C(n - 1, m - 1)

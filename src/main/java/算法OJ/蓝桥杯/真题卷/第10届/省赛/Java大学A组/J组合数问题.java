@@ -1,13 +1,14 @@
 package 算法OJ.蓝桥杯.真题卷.第10届.省赛.Java大学A组;
 
 import java.util.Scanner;
+
 /**
  已AC
  */
 public class J组合数问题 {
     /*
     求满足C(i,j)%k==0的数对(i,j)的个数
-    其中 1 <= i <= n , 0 <= j <= m
+    其中 1 <= i <= n , 0 <= j <= min{i,m}
     k是质数
      */
 
@@ -84,7 +85,7 @@ public class J组合数问题 {
 
     private static long solve() {
         long n = sc.nextLong(), m = sc.nextLong();
-        if (m > n) m = n;
+        if (m > n) m = n;// j<i && i<n => j<n
         long ans = cal(n, m);
         Arr changeN = changeK(n), changeM = changeK(m);
         int len = changeN.len;
@@ -118,7 +119,7 @@ public class J组合数问题 {
 
     static Arr changeK(long n) {
         int[] res = new int[100]; //1e18,转二进制的话由大概60位
-        int len = 0;
+        int len = n == 0 ? 1 : 0;
         while (n > 0) {
             res[len++] = ((int) (n % k));
             n /= k;
@@ -137,14 +138,14 @@ public class J组合数问题 {
     }
 
     /**
-     a>=b
-     a取值[0, x], b取值[0, y]
-     (1) x <= y:
-     a取k, b取[0,k]
-     总可能数为 1 + 2 + 3 + ... + (x + 1) = (x + 2) * (x + 1) / 2
-     (2) x > y:
-     在a取值[y+1,x]上时, b在[0,y]全部能取 => (x - y) * (y + 1)
-     a取值[0,y]上,等价与情况(1)  => (y + 2) * (y + 1) / 2
+     a>=b<br>
+     a取值[0, x], b取值[0, y]<br>
+     (1) x <= y:<br>
+     a取k, b取[0,k]<br>
+     总可能数为 1 + 2 + 3 + ... + (x + 1) = (x + 2) * (x + 1) / 2<br>
+     (2) x > y:<br>
+     在a取值[y+1,x]上时, b在[0,y]全部能取 => (x - y) * (y + 1)<br>
+     a取值[0,y]上,等价与情况(1)  => (y + 2) * (y + 1) / 2<br>
      */
     static long cal(long x, long y) {
         if (x < 0 || y < 0) return 0;

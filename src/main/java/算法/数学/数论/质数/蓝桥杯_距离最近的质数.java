@@ -24,7 +24,6 @@ public class 蓝桥杯_距离最近的质数 {
                 if (i % prime[j] == 0) break;
             }
         }
-
     }
 
     /**

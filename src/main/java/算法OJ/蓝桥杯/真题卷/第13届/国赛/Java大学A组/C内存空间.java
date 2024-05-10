@@ -33,7 +33,7 @@ public class C内存空间 {
     private static long handle(String statement) {
         if (statement.isEmpty()) return 0;
         int type = getType(statement);//方便判断类型
-        if (type == 1 || type == 2) {//数组
+        if (type == 1 || type == 2) {//动态数组
             int cnt = 0;//数组长度之和
             String[] res = statement.split("[=,]");//按照"="和","切割,这样奇数项就是"new type[len]"的形式
             for (int j = 1; j < res.length; j += 2) {
