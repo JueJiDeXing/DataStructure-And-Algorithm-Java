@@ -6,7 +6,10 @@ import java.io.StreamTokenizer;
 /**
  已AC
  */
-public class _3 {
+public class C老虎机 {
+    /*
+    m个图案, 三个都不同得到a,一对相同得到b,三个都相同得到c,求期望
+     */
     static StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
 
     static int nextInt() {

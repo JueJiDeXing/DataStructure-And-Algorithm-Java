@@ -6,7 +6,7 @@ import java.io.StreamTokenizer;
 /**
  已AC
  */
-public class _1 {
+public class A逢7必过 {
     static StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
 
     static int nextInt() {

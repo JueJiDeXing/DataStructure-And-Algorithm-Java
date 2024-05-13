@@ -5,8 +5,10 @@ import java.util.Scanner;
 /**
  已AC
  */
-public class _2 {
-
+public class B交换数字 {
+/*
+a与b可以在同一位上交换数字,求min{a,b}
+ */
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);

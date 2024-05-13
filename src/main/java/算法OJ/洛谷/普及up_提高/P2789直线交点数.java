@@ -3,7 +3,9 @@ package 算法OJ.洛谷.普及up_提高;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-
+/**
+ 已AC
+ */
 public class P2789直线交点数 {
     /*
      假设平面上有 N 条直线，且无三线共点，那么这些直线有多少种可能的交点数？

@@ -3,7 +3,9 @@ package 算法OJ.洛谷.普及up_提高;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StreamTokenizer;
-
+/**
+ 已AC
+ */
 public class P2822_NOIP2016_提高组_组合数问题 {
     /*
     给定n,m,k
