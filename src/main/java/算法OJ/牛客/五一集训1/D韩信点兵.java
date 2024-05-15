@@ -1,43 +1,42 @@
 package 算法OJ.牛客.五一集训1;
 
-import java.util.HashSet;
+import java.math.BigInteger;
 import java.util.Scanner;
-
+/**
+ 已AC
+ */
 public class D韩信点兵 {
+    static Scanner sc = new Scanner(System.in);
+
+    static int I() {
+        return sc.nextInt();
+    }
+
+    static long L() {
+        return sc.nextLong();
+    }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        long m = sc.nextLong();
-
-        long x = 1;//x[i]:满足前i个约束的最小x
-        long lcm = 1;//lcm[i]:前i个约束的最小公倍数
-        HashSet<Integer> set = new HashSet<>();
+        int n = I();
+        BigInteger m = BigInteger.valueOf(L());
+        //x[i]:满足前i个约束的最小x; lcm[i]:前i个约束的最小公倍数
+        BigInteger x = BigInteger.ZERO, lcm = BigInteger.ONE;
         for (int i = 0; i < n; i++) {
-            int a = sc.nextInt(), b = sc.nextInt();
-            set.clear();
-            while (x % a != b) {
-                if (!set.add((int) (x % a))) {
-                    System.out.println("he was definitely lying");
-                    return;
-                }
-                x += lcm;// x[i] = x[i-1] + t*lcm => x[i] % i == map[i]
+            BigInteger a = BigInteger.valueOf(L()), b = BigInteger.valueOf(L());// 约束 ans % a = b
+            // (x+t*lcm)%a=b => lcm * t = b-x (mod a)
+            // 形如同余方程 ax = b ( mod p )
+            // ax = b (mod p) 有解条件 gcd(a,p)|b
+            // 即 (b-x) % gcd(lcm,a) = 0
+            BigInteger gcd = lcm.gcd(a);
+            if (!b.subtract(x).mod(gcd).equals(BigInteger.ZERO)) {// 无解
+                System.out.println("he was definitely lying");
+                return;
             }
-            lcm = lcm(lcm, a);
+            while (!x.mod(a).equals(b)) {
+                x = x.add(lcm); // x[i] = x[i-1] + t*lcm => x[i] % i == map[i]
+            }
+            lcm = lcm.multiply(a).divide(gcd);
         }
-        if (x > m) {
-            System.out.println("he was probably lying");
-            return;
-        }
-        System.out.println(x);//2022040920220409
-    }
-
-    static long gcd(long a, long b) {
-        if (b == 0) return a;
-        return gcd(b, a % b);
-    }
-
-    static long lcm(long a, long b) {
-        return (a * b) / gcd(a, b);
+        System.out.println(x.compareTo(m) > 0 ? "he was probably lying" : x);
     }
 }

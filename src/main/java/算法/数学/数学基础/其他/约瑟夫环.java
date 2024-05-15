@@ -21,6 +21,7 @@ public class 约瑟夫环 {
      */
     public static int josephus2(int n, int m) {
         int[] dp = new int[n + 1];//编号从0开始
+        dp[1] = 0;
         for (int i = 2; i <= n; i++) {
             dp[i] = (dp[i - 1] + m) % i;
         }

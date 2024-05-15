@@ -1,6 +1,8 @@
 package 算法OJ.洛谷.普及up_提高;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 /**
@@ -37,8 +39,13 @@ public class P1004方格取数 {
      */
     public static void main(String[] args) {
         N = Int();
-        //将记录数组初始化成-1，因为可能出现取的数为0的情况，如果直接判断f[x][y][x2][y2]!=0（见dfs第一行）
-        //可能出现死循环而导致超时，细节问题
+        //读入
+        while (true) {
+            int t1 = Int(), t2 = Int(), t3 = Int();
+            if (t1 == 0 && t2 == 0 && t3 == 0) break;
+            mat[t1][t2] = t3;
+        }
+        //记忆数组初始化
         for (int a = 0; a <= N; a++) {
             for (int b = 0; b <= N; b++) {
                 for (int c = 0; c <= N; c++) {
@@ -46,13 +53,9 @@ public class P1004方格取数 {
                 }
             }
         }
-        while (true) {//读入
-            int t1 = Int(), t2 = Int(), t3 = Int();
-            if (t1 == 0 && t2 == 0 && t3 == 0) break;
-            mat[t1][t2] = t3;
-        }
-        int r = dfs(1, 1, 1, 1) + mat[1][1];//输出，因为dfs中没有考虑第一格，即s[1][1]，所以最后要加一下
-        System.out.println(r);
+        // dfs
+        int r = dfs(1, 1, 1, 1);
+        System.out.println(r + mat[1][1]);//输出，因为dfs中没有考虑第一格，即s[1][1]，所以最后要加一下
     }
 
     static int[][][][] memo = new int[11][11][11][11];
@@ -63,27 +66,35 @@ public class P1004方格取数 {
     static int dfs(int x, int y, int x2, int y2) {
         if (memo[x][y][x2][y2] != -1) return memo[x][y][x2][y2];//记忆化
         if (x == N && y == N && x2 == N && y2 == N) return 0;//如果两种方案都走到了终点，返回结束
-        int ans = 0;
+        int res, ans = 0;
         if (x < N && x2 < N) {// case 1: 都往下走
-            int res = dfs(x + 1, y, x2 + 1, y2) + mat[x + 1][y] + mat[x2 + 1][y2];
-            int repeat = mat[x + 1][y] * (x + 1 == x2 + 1 && y == y2 ? 1 : 0);//如果走到了同一格,需要减去重复值
-            ans = Math.max(ans, res - repeat);
+            res = dfs(x + 1, y, x2 + 1, y2) + mat[x + 1][y] + mat[x2 + 1][y2];
+            if (x + 1 == x2 + 1 && y == y2) {//如果走到了同一格,需要减去重复值
+                res -= mat[x + 1][y];
+            }
+            ans = Math.max(ans, res);
         }
         if (x < N && y2 < N) {//case 2: 第一种向下,第二种向右
-            int res = dfs(x + 1, y, x2, y2 + 1) + mat[x + 1][y] + mat[x2][y2 + 1];
-            int repeat = mat[x + 1][y] * (x + 1 == x2 && y == y2 + 1 ? 1 : 0);
-            ans = Math.max(ans, res - repeat);
+            res = dfs(x + 1, y, x2, y2 + 1) + mat[x + 1][y] + mat[x2][y2 + 1];
+            if (x + 1 == x2 && y == y2 + 1) {
+                res -= mat[x + 1][y];
+            }
+
+            ans = Math.max(ans, res);
         }
         if (y < N && x2 < N) {// case 3: 第一种向右,第二种向下
-            int res = dfs(x, y + 1, x2 + 1, y2) + mat[x][y + 1] + mat[x2 + 1][y2];
-            int repeat = mat[x][y + 1] * (x == x2 + 1 && y + 1 == y2 ? 1 : 0);
-            ans = Math.max(ans, res - repeat);
+            res = dfs(x, y + 1, x2 + 1, y2) + mat[x][y + 1] + mat[x2 + 1][y2];
+            if (x == x2 + 1 && y + 1 == y2) {
+                res -= mat[x][y + 1];
+            }
+            ans = Math.max(ans, res);
         }
-
         if (y < N && y2 < N) { // case 4: 都向右走
-            int res = dfs(x, y + 1, x2, y2 + 1) + mat[x][y + 1] + mat[x2][y2 + 1];
-            int repeat = mat[x][y + 1] * (x == x2 && y + 1 == y2 + 1 ? 1 : 0);
-            ans = Math.max(ans, res - repeat);
+            res = dfs(x, y + 1, x2, y2 + 1) + mat[x][y + 1] + mat[x2][y2 + 1];
+            if (x == x2 && y + 1 == y2 + 1) {
+                res -= mat[x][y + 1];
+            }
+            ans = Math.max(ans, res);
         }
         return memo[x][y][x2][y2] = ans;//返回最大值
     }

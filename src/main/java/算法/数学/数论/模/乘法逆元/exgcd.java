@@ -33,7 +33,7 @@ public class exgcd {
 
      @param a,b 方程参数
      */
-    private void doExgcd(int a, int b) {
+    public void doExgcd(int a, int b) {
         if (b == 0) {
             x = 1;
             y = 0;

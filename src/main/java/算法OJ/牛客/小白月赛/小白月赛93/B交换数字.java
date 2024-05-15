@@ -1,4 +1,4 @@
-package 算法OJ.牛客.小白月赛._93;
+package 算法OJ.牛客.小白月赛.小白月赛93;
 
 import java.util.Scanner;
 

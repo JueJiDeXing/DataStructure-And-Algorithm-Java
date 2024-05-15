@@ -3,7 +3,7 @@ package 算法.数学.数论.模;
 import java.math.BigInteger;
 import java.util.*;
 
-public class 斐波那契 {
+public class 斐波那契模相关性质 {
     /*
     斐波那契数列性质:
     (1) f(n) = f(n-1) + f(n-2)
@@ -18,7 +18,6 @@ public class 斐波那契 {
     求 f(n) % f(m)
     m较小,n非常大
      */
-
 
     /*
     f(n) % f(m)
