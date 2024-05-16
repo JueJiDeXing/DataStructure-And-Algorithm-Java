@@ -3,14 +3,17 @@ package 算法.数学.数论.质数;
 import 算法.数学.数论.模.欧拉降幂;
 import 算法OJ.蓝桥杯.真题卷.第14届.省赛.Java大学A组.E互质数个数;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class 欧拉函数 {
     /*
     求数k在[1,k]上与k互质的个数,E(k)
-    1. E(a^b) = E(a) * a^(b-1)
-    2. E(k) = k * (1 - 1/pi) 其中pi是k的质因子
+    1. E(a^b) = a^(b-1) * E(a)
+    2. E(N) = N * mul{ (1 - 1/pi) } 其中pi是N的质因子
     3. E(N) = E(N/pi) * (pi-1) 其中pi是N的质因子
+    4. 若ab互质, 则E(ab)=E(a)*E(b)
+    5. a%b==0, 那么E(a*b)=b*E(a)
      */
 
     /**
@@ -18,7 +21,7 @@ public class 欧拉函数 {
      E(x) = E(x/pi) * (pi-1) 其中pi是N的质因子
      O(sqrt(x))
      */
-    static int euler(int x) {
+    public static int euler(int x) {
         int n = (int) Math.sqrt(x);
         int res = x;
         for (int i = 2; i <= n; i++) {
@@ -31,38 +34,7 @@ public class 欧拉函数 {
     }
 
     /**
-     <h1>质数线性筛加快欧拉函数</h1>
-     */
-    long euler(int a, int b) {//求[a,b]的欧拉函数值之和
-        //线性筛,筛质数
-        boolean[] isPrime = new boolean[b + 1];
-        Arrays.fill(isPrime, true);//先置为true,后面再筛掉
-        for (int i = 2; i * i <= b; i++) {
-            if (!isPrime[i]) continue;
-            for (int j = i * i; j <= b; j += i) isPrime[j] = false;
-        }
-        //求和
-        long sum = 0;
-        for (int i = a; i <= b; i++) sum += phi(i, isPrime);
-        return sum;
-    }
-
-    //求n的欧拉函数值
-    int phi(int n, boolean[] isPrime) {
-        if (n == 1) return 1;
-        int res = n;
-        for (int i = 2; i * i <= n; i++) {
-            if (!isPrime[i]) continue;
-            if (n % i != 0) continue;
-            res -= res / i;
-            while (n % i == 0) n /= i;
-        }
-        if (n > 1) res -= res / n;
-        return res;
-    }
-
-    /**
-     <h1>求区间上每个数的欧拉函数</h1>
+     <h1>欧拉函数模版-求[1,n]的欧拉函数</h1>
      */
     int[] get_phi(int n) {
         int[] phi = new int[n];
@@ -75,6 +47,35 @@ public class 欧拉函数 {
         }
         return phi;
     }
+
+    /**
+     <h1>欧拉函数模版-欧拉&素数筛</h1>
+     */
+    static int N = 2000007;
+    static List<Integer> prime = new ArrayList<>();
+    static int[] phi = new int[N];
+
+    static {
+        boolean[] isCom = new boolean[N];
+        phi[1] = 1;
+        for (int i = 2; i < N; i++) {
+            if (!isCom[i]) {
+                prime.add(i);
+                phi[i] = i - 1;// 与质数i互质的数有i-1个
+            }
+            for (int j = 0; j < prime.size() && prime.get(j) * i < N; j++) {
+                Integer p = prime.get(j);
+                isCom[i * p] = true;
+                if (i % p == 0) {
+                    phi[i * p] = phi[i] * p;
+                    break;
+                } else {
+                    phi[i * p] = phi[i] * (p - 1);// E(N) = E(N/pi) * (pi-1) 其中pi是N的质因子
+                }
+            }
+        }
+    }
+
 
     /**
      <h1>求a^b在[1,a^b]上的互质数个数</h1>

@@ -1,21 +1,15 @@
 package 算法OJ.牛客.周赛.周赛41;
 
-import java.math.BigInteger;
 import java.util.Scanner;
 
 /**
  已AC
  */
 public class C循环移位 {
-    /**
-     原数 s0,s1,...
-     后数 s1,s2,...
-
-     原数模 S
-     后数模 (10 * ( S - s0*pow(10,n-1) ) + s0 ) %4
-     = 10 * ( S - s0*pow(10,n-1) ) % 4 + s0%4
-     = 2 * ( S%4 - s0*pow(10,n-1)%4) %4 + s0%4
-     = (2*S + s0)%4
+    /*
+    任何一个整数,如果它的最低两位是4的倍数,则这个数是4的倍数
+    s = s[0]s[1]...s[n-3]00 + s[n-2]s[n-1]
+    前n-2个数一定能被4整除
      */
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
@@ -26,25 +20,18 @@ public class C循环移位 {
             System.out.println(c % 4 == 0 ? 0 : -1);
             return;
         }
-        if (n == 2) {
-            if (Integer.parseInt(s) % 4 == 0) {
-                System.out.println(0);
-                return;
-            }
-            if (Integer.parseInt("" + s.charAt(1) + s.charAt(0)) % 4 == 0) {
-                System.out.println(0);
-                return;
-            }
-            System.out.println(-1);
+        if (Integer.parseInt(s.substring(n - 2)) % 4 == 0) {
+            System.out.println(0);
             return;
         }
-        int S = new BigInteger(s).mod(BigInteger.valueOf(4)).intValue();
+        char pre = s.charAt(n - 1);
         for (int i = 0; i < n; i++) {
-            if (S == 0) {
-                System.out.println(i);
+            char cur = s.charAt(i);
+            if (Integer.parseInt("" + pre + cur) % 4 == 0) {
+                System.out.println(i + 1);
                 return;
             }
-            S = (2 * S + (s.charAt(i) - '0')) % 4;
+            pre = cur;
         }
         System.out.println(-1);
     }

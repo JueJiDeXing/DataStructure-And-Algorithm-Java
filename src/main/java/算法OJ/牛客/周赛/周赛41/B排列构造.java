@@ -19,29 +19,17 @@ public class B排列构造 {
 
     public static void main(String[] args) throws Exception {
         int n = I(), k = I();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = I();
         if (k == 1 || k > n) {
             System.out.println(-1);
             return;
         }
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) a[i] = I();
-        int i = 0;
-        if (k % 2 == 1) {
-            swap(a, 0, 1);
-            swap(a, 0, 2);
-            i += 3;
-        }
-        for (; i < k; i += 2) {
-            swap(a, i, i + 1);
-        }
-        for (int j = 0; j < n; j++) {
-            System.out.print(a[j] + " ");
-        }
+        // 有k个不同, 让前面n-k个相同, 后面k个不同
+        for (int i = 0; i < n - k; i++) System.out.println(a[i]);
+        for (int i = n - k + 1; i < n; i++) System.out.println(a[i]);
+        System.out.println(a[n - k]);
     }
 
-    static void swap(int[] a, int i, int j) {
-        int t = a[i];
-        a[i] = a[j];
-        a[j] = t;
-    }
+
 }
