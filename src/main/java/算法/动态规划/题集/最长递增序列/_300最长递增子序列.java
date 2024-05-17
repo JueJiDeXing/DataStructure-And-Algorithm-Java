@@ -1,4 +1,4 @@
-package 算法.动态规划.题集.子数组问题.最长递增序列;
+package 算法.动态规划.题集.最长递增序列;
 
 import java.util.Arrays;
 
@@ -87,6 +87,58 @@ public class _300最长递增子序列 {
                 }
             }
             tails[right] = num;// 长度为left的序列拼接num,覆盖长度为right的序列
+        }
+        return maxLen;
+    }
+
+    /**
+     <h1>更新 - 模版</h1>
+     */
+    public int lengthOfLIS4(int[] nums) {
+        int n = nums.length;
+        if (n == 0) return 0;
+        int[] dp = new int[n];//dp[i]:长度为i的子序列末尾是多少
+        dp[1] = nums[0];
+        int maxLen = 1;
+        for (int i = 1; i < n; i++) {
+            int x = nums[i];
+            if (dp[maxLen] <= x) {//s[i]接在最长的后面
+                dp[++maxLen] = x;
+            } else {//s[i]找一个最长的可拼接的子序列拼接, 替换长度比他大1的子序列
+                int l = 0, r = maxLen;// r:大于s[i]的; l:小于等于s[i]的
+                while (l + 1 != r) {
+                    int mid = (l + r) >>> 1;
+                    if (dp[mid] <= x) {
+                        l = mid;
+                    } else {
+                        r = mid;
+                    }
+                }
+                dp[r] = x;
+            }
+        }
+        return maxLen;
+    }
+
+    public int lengthOfLIS5(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];//dp[i]:长度为i的子序列末尾是多少
+        int maxLen = 0;
+        for (int x : nums) {
+            if (maxLen == 0 || dp[maxLen] <= x) {//s[i]接在最长的后面
+                dp[++maxLen] = x;
+            } else {//s[i]找一个最长的可拼接的子序列拼接, 替换长度比他大1的子序列
+                int l = 0, r = maxLen;// r:大于s[i]的; l:小于等于s[i]的
+                while (l + 1 != r) {
+                    int mid = (l + r) >>> 1;
+                    if (dp[mid] <= x) {
+                        l = mid;
+                    } else {
+                        r = mid;
+                    }
+                }
+                dp[r] = x;
+            }
         }
         return maxLen;
     }

@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  没看懂题解
  */
-public class _2汉诺塔 {
+public class 汉诺塔 {
     /*
     汉诺塔有6种操作, 给定初始A柱上的盘个数n, 和操作权值排序, 按以下规则进行操作:
     1. 优先选择权值大的操作

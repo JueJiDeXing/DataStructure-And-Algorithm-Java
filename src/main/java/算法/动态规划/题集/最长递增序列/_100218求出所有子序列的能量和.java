@@ -1,4 +1,4 @@
-package 算法.动态规划.题集.子数组问题.最长递增序列;
+package 算法.动态规划.题集.最长递增序列;
 
 import java.util.Arrays;
 import java.util.HashMap;

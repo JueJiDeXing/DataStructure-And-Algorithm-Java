@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  已AC
  */
-public class _1译码 {
+public class 译码 {
     /*
     aaa=0,aab=1,...
     给出数字求字符串
@@ -30,7 +30,6 @@ public class _1译码 {
         char s2 = (char) (n % 26 + 'a');
         n /= 26;
         char s3 = (char) (n % 26 + 'a');
-
         return s3 + "" + s2 + s1;
     }
 }
