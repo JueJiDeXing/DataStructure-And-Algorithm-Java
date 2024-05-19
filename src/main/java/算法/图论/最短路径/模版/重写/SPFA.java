@@ -1,4 +1,4 @@
-package 算法.图论.最短路径.重写;
+package 算法.图论.最短路径.模版.重写;
 
 import java.util.*;
 

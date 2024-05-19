@@ -19,21 +19,19 @@ public class 回文数生成 {
     @NotNull
     private static List<Integer> create(int n) {
         List<Integer> ans = new ArrayList<>();
-        int base = 1;
-        while (base <= n) {//len(base):回文串半区长度
+        for (int base = 1; base <= n; base *= 10) {//base:回文串半区长度
+            // 奇数翻转
             for (int i = base; i < base * 10; i++) {
-                //奇数翻转
-                //i 拼接 倒i, 例如i=123 -> 生成12321
-                int x = i;
-                int t = i / 10;
+                // 回文数 = i + 倒i, 例如i=123 -> 生成12321
+                int x = i, t = i / 10;//中间一位不要,所以除10
                 while (t > 0) {
                     x = x * 10 + t % 10;
                     t /= 10;
                 }
                 ans.add(x);
             }
+            //偶数翻转
             if (base <= n / 10) {
-                //偶数翻转
                 for (int i = base; i < base * 10; i++) {
                     int x = i, t = i;
                     while (t > 0) {
@@ -43,7 +41,6 @@ public class 回文数生成 {
                     ans.add(x);
                 }
             }
-            base *= 10;
         }
         return ans;
     }

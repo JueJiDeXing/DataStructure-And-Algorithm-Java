@@ -1,4 +1,4 @@
-package 算法.图论.最短路径;
+package 算法.图论.最短路径.模版;
 
 import java.util.Arrays;
 import java.util.List;
