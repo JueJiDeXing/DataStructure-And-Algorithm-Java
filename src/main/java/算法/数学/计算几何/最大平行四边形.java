@@ -15,7 +15,6 @@ public class 最大平行四边形 {
     n<=1000
      */
 
-
     public static void main(String[] args) throws Exception {
         int n = I();
         long[][] points = new long[n][2];
@@ -23,43 +22,42 @@ public class 最大平行四边形 {
             long x = I(), y = I();
             points[i] = new long[]{x, y};
         }
+
         HashMap<Line, List<int[]>> map = new HashMap<>();
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
                 long[] p1 = points[i], p2 = points[j];
                 //p1和p2组成直线
-                // k = y2-y1 / x2-x1
                 long a = p2[1] - p1[1], b = p1[0] - p2[0];
-                Line line = new Line(a, b, a * a + b * b);
+                Line line = new Line(a, b, a * a + b * b);// 斜率, 长度相等的存一起
                 map.computeIfAbsent(line, kk -> new ArrayList<>()).add(new int[]{i, j});
             }
         }
+
+        long ans = maxArea(map, points);
+        if (ans == 0) {
+            System.out.println(-1);
+        } else {
+            System.out.println(ans + ".0");
+        }
+    }
+
+    private static long maxArea(HashMap<Line, List<int[]>> map, long[][] points) {
         long ans = 0;
         for (List<int[]> e : map.values()) {
-            int size = e.size();
-            for (int i = 1; i < size; i++) {
+            for (int i = 1; i < e.size(); i++) {
                 for (int j = 0; j < i; j++) {
-                    // 直线1: p1->p2
-                    // 直线2: p3->p4
+                    // 直线1: p1->p2, 直线2: p3->p4
                     long[] p1 = points[e.get(i)[0]], p2 = points[e.get(i)[1]];
                     long[] p3 = points[e.get(j)[0]], p4 = points[e.get(j)[1]];
-                    // 检查p1->p3和p2->p4是否平行
-                    if (cross(p1, p3, p2, p4) == 0) {
-                        ans = Math.max(ans, cross(p1, p2, p1, p3));
-                    } else if (cross(p1, p4, p2, p3) == 0) {
-                        ans = Math.max(ans, cross(p1, p2, p1, p4));
-                    }
+                    ans = Math.max(ans, cross(p1, p2, p1, p3));// p1->p2 × p1->p3 与 p1->p2 × p1->p4是大小相等的
                 }
             }
         }
-        if (ans == 0) {
-            System.out.println(-1);
-            return;
-        }
-        System.out.println(ans + ".0");
+        return ans;
     }
 
-    //向量 p1->p2 × p1->p3
+    //向量 A1->A2 × B1->B2
     static long cross(long[] A1, long[] A2, long[] B1, long[] B2) {
         return Math.abs((A2[0] - A1[0]) * (B2[1] - B1[1]) - (A2[1] - A1[1]) * (B2[0] - B1[0]));
     }
@@ -73,25 +71,25 @@ public class 最大平行四边形 {
     }
 
     static class Line {
-        long a, b;//k= a/b
-        long length;
+        long a, b; //k= a/b
+        long length;// 长度
 
         public Line(long a, long b, long length) {
             this.length = length;
-            if (a == 0) {
+            if (a == 0) {//斜率为0
                 this.a = 0;
                 this.b = 0;
                 return;
             }
             long g = gcd(a, b);
-            if (g == 0) {
+            if (g == 0) {// 斜率为无穷大
                 this.a = 1;
                 this.b = 0;
                 return;
             }
             a /= g;
             b /= g;
-            if (b < 0) {
+            if (b < 0) {//保证分母为正, (ab是需要参与哈希运算的)
                 a = -a;
                 b = -b;
             }
