@@ -1,4 +1,4 @@
-package 算法.数学.计算几何;
+package 算法.数学.计算几何.公式;
 
 public class 三角形面积 {
     public static void main(String[] args) {

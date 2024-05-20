@@ -1,4 +1,4 @@
-package 算法.数学.计算几何;
+package 算法.数学.计算几何.公式;
 
 public class 距离公式 {
     /**

@@ -1,4 +1,4 @@
-package 算法.数学.计算几何;
+package 算法.数学.计算几何.位置关系判断;
 
 public class 判断点是否落在三角形内 {
     /*

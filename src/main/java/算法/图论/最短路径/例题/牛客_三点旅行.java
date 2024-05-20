@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StreamTokenizer;
 import java.util.*;
-
+/**
+ 已AC
+ */
 public class 牛客_三点旅行 {
 
     /*

@@ -8,7 +8,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
-
+/**
+ 已AC
+ */
 public class 牛客_直线与圆 {
     /*
      从L1到L2的最短距离

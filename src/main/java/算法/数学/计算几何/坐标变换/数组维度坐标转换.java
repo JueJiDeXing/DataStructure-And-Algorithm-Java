@@ -1,4 +1,4 @@
-package 算法.数学.计算几何;
+package 算法.数学.计算几何.坐标变换;
 
 public class 数组维度坐标转换 {
     /**
