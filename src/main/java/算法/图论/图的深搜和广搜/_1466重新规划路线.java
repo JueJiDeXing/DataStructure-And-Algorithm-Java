@@ -15,7 +15,7 @@ public class _1466重新规划路线 {
      */
 
     /**
-     <h1>深度优先</h1>
+     <h1>dfs</h1>
      */
     public int minReorder(int n, int[][] connections) {
         List<int[]>[] e = new List[n];
@@ -41,7 +41,7 @@ public class _1466重新规划路线 {
     }
 
     /**
-     <h1>广度优先</h1>
+     <h1>bfs</h1>
      */
     public int minReorder2(int n, int[][] connections) {
         //邻接表建图

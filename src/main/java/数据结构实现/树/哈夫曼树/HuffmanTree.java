@@ -98,7 +98,7 @@ public class HuffmanTree {
             queue.offer(new Node(x.freq + y.freq, x, y));
         }
         this.root = queue.poll();
-        //计算编码,深度优先
+        //计算编码,dfs
         StringBuilder stringBuilder = new StringBuilder();
         int sumBytes = dfs(root, stringBuilder);
 

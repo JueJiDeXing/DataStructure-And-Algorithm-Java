@@ -50,7 +50,7 @@ public class _207课程表 {
         visited[u] = 1;//标记为搜索中节点
         for (int v : edges.get(u)) {//搜索该节点的所有相邻节点
             if (visited[v] == 0) {//节点未搜索
-                dfs(v);//深搜_广搜
+                dfs(v);//搜索
                 if (!valid) {//搜索后发现有循环依赖,退出搜索,返回false
                     return;
                 }

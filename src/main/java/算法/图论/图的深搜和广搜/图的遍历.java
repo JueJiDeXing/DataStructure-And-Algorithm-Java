@@ -41,7 +41,7 @@ public class 图的遍历 {
     }
 
     /**
-     深度优先
+     dfs
 
      @param vertex 起点
      */
@@ -57,7 +57,7 @@ public class 图的遍历 {
     }
 
     /**
-     深度优先--非递归版
+     dfs--非递归版
 
      @param vertex 起点
      */
@@ -77,7 +77,7 @@ public class 图的遍历 {
     }
 
     /**
-     广度优先
+     bfs
 
      @param vertex 起点
      */
@@ -148,7 +148,7 @@ public class 图的遍历 {
     }
 
     /**
-     深度优先
+     dfs
 
      @param vertex 起点
      */

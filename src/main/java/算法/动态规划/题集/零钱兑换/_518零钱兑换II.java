@@ -44,8 +44,8 @@ public class _518零钱兑换II {
     }
 
     /**
-     <h1>深搜_广搜</h1>
-     具体注释见 递归_回溯-深搜_广搜-排列组合-组数总和
+     <h1>搜索</h1>
+     具体注释见 递归_回溯-搜索-排列组合-组数总和
      */
     public static int change2(int[] coins, int amount) {
         List<List<Integer>> res = new ArrayList<>();

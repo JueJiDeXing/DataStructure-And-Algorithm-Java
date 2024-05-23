@@ -1,6 +1,6 @@
 package 基础数据结构算法.栈.单调栈应用;
 
-import 算法.算法基础.深搜_广搜.深度优先._407接雨水II;
+import 算法.算法基础.搜索.dfs._407接雨水II;
 
 import java.util.LinkedList;
 
