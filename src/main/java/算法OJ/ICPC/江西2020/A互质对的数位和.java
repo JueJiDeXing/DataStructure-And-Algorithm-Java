@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 /**
- 已AC(×)
+ 已AC(容斥,难)
  */
 public class A互质对的数位和 {
     /*

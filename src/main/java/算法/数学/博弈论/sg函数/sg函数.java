@@ -1,7 +1,5 @@
 package 算法.数学.博弈论.sg函数;
 
-import org.testng.annotations.Test;
-
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Scanner;
@@ -53,12 +51,10 @@ public class sg函数 {
 
     static void dfs(int n) {
         if (sg[n] != -1) return;
-        //HashSet<Integer> set = new HashSet<>();
         BitSet set = new BitSet();
         for (int i = 1; i < n; i++) {
-            dfs(i);// 后继状态
-            //set.add(sg[i]);
-            set.set(sg[i]);
+            dfs(i);// 搜索后继状态
+            set.set(sg[i]);//得到后继状态的sg值
         }
         sg[n] = mex(set);
     }

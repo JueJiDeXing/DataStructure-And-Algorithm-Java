@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- 已AC(递归)
+ 已AC(辗转)
  */
-public class B连除式 {
+public class B连分式 {
     static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in), 65535);
     static StreamTokenizer st = new StreamTokenizer(bf);
     static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
@@ -21,17 +21,17 @@ public class B连除式 {
     public static void main(String[] args) throws Exception {
         int t = I();
         while (t-- > 0) {
-            List<Integer> ans = solve();
-
-            pw.print(ans.size() - 1 + " ");
-            for (int i = 0; i < ans.size(); i++) {
-                pw.print(ans.get(i) + " ");
-            }
-            pw.println();
+            print(solve());
         }
         pw.flush();
-        pw.close();
+    }
 
+    private static void print(List<Integer> ans) {
+        pw.print(ans.size() - 1 + " ");
+        for (int i = 0; i < ans.size(); i++) {
+            pw.print(ans.get(i) + " ");
+        }
+        pw.println();
     }
 
     static List<Integer> solve() throws IOException {
@@ -47,7 +47,7 @@ public class B连除式 {
                 c = a % b;
                 a = b;
                 b = c;
-            } else {// a/b
+            } else {// a < b
                 ans.add(b);
                 break;
             }

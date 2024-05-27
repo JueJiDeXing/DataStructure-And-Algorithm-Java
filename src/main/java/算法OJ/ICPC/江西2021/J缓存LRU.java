@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  已AC(二分+实现LRU)
  */
-public class J_LRU {
+public class J缓存LRU {
     static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in), 65535);
     static StreamTokenizer st = new StreamTokenizer(bf);
 

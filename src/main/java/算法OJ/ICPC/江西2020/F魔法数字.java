@@ -13,13 +13,11 @@ public class F魔法数字 {
     如果没有方案,输出-1
      */
     static BigInteger[] cost = new BigInteger[10];
-    static BigInteger[] B = new BigInteger[11];
+    static BigInteger[] B = new BigInteger[11];//1~10的BigInteger缓存
 
     static {
-        for (int i = 0; i < B.length; i++) {
-            B[i] = BigInteger.valueOf(i);
-        }
-        int[] l = {6, 2, 5, 5, 4, 5, 6, 3, 7, 6};
+        for (int i = 0; i < B.length; i++) B[i] = BigInteger.valueOf(i);
+        int[] l = {6, 2, 5, 5, 4, 5, 6, 3, 7, 6};//l[i]:i需要的火柴数
         for (int i = 0; i <= 9; i++) {
             cost[i] = B[l[i]];
         }
@@ -38,18 +36,18 @@ public class F魔法数字 {
     }
 
     /**
-     第i位数, 当前为num, 使用了consume个火柴
+     已枚举i位, 当前枚举出的数为num, 使用了consume个火柴
      */
     static void dfs(int i, BigInteger num, BigInteger consume) {
         int compareTo = consume.compareTo(n);
+        if (compareTo > 0) return;
         if (compareTo == 0) {
             ans = ans.max(num);
             return;
         }
-        if (compareTo > 0) return;
-        for (int d = 0; d <= 9; d++) {
-            BigInteger newNum = num.multiply(B[10]).add(B[d]);
-            if (newNum.mod(BigInteger.valueOf(i + 1)).equals(B[0])) {
+        for (int d = 0; d <= 9; d++) {//枚举第i+1位
+            BigInteger newNum = num.multiply(B[10]).add(B[d]);//拼接
+            if (newNum.mod(BigInteger.valueOf(i + 1)).equals(B[0])) {//检查是否合法
                 dfs(i + 1, newNum, consume.add(cost[d]));
             }
         }

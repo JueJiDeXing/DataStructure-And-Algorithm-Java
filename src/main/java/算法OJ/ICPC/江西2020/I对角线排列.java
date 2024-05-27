@@ -19,6 +19,4 @@ public class I对角线排列 {
         }
 
     }
-
-
 }

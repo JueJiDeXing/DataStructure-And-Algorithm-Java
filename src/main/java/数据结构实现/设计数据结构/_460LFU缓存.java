@@ -1,6 +1,7 @@
 package 数据结构实现.设计数据结构;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class _460LFU缓存 {
     /*
@@ -28,21 +29,7 @@ public class _460LFU缓存 {
 
 
 class LFUCache {
-    private static class Node {
-        int key, value;
-        int freq = 1; // 新书只读了一次
-        Node prev, next;
 
-        Node(int key, int value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
-
-    private final int capacity;
-    private final Map<Integer, Node> keyToNode = new HashMap<>();
-    private final Map<Integer, Node> freqToDummy = new HashMap<>();
-    private int minFreq;
 
     /**
      <h1> 思路: </h1>
@@ -69,6 +56,22 @@ class LFUCache {
     public LFUCache(int capacity) {
         this.capacity = capacity;
     }
+
+    private static class Node {
+        int key, value;
+        int freq = 1; // 新书只读了一次
+        Node prev, next;
+
+        Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    private final int capacity;
+    private final Map<Integer, Node> keyToNode = new HashMap<>();
+    private final Map<Integer, Node> freqToDummy = new HashMap<>();
+    private int minFreq;
 
     /**
      如果键 key 存在于缓存中，则获取键的值，否则返回 -1 。

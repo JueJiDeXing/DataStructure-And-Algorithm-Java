@@ -1,8 +1,10 @@
 package 算法OJ.ICPC.江西2021;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StreamTokenizer;
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  已AC(求x区间并集)
@@ -10,18 +12,10 @@ import java.util.Scanner;
 public class L下雨 {
     static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in), 65535);
     static StreamTokenizer st = new StreamTokenizer(bf);
-    static Scanner sc = new Scanner(System.in);
-    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
 
     static int I() throws IOException {
         st.nextToken();
         return (int) st.nval;
-    }
-
-    static String S() throws IOException {
-        String res = bf.readLine();
-        while (res.isEmpty()) res = bf.readLine();
-        return res;
     }
 
     public static void main(String[] args) throws Exception {
@@ -31,7 +25,7 @@ public class L下雨 {
             int x1 = I(), y1 = I(), x2 = I(), y2 = I();
             X[i] = new int[]{x1, x2};
         }
-        Arrays.sort(X, (a, b) -> {
+        Arrays.sort(X, (a, b) -> {// 对区间排序
             if (a[0] != b[0]) return a[0] - b[0];
             return a[1] - b[1];
         });
@@ -39,7 +33,7 @@ public class L下雨 {
         long left = X[0][0], right = X[0][1];
         for (int i = 1; i < n; i++) {
             long L = X[i][0], R = X[i][1];
-            if (L > right) {
+            if (L > right) {// 两段区间分离
                 ans += right - left;
                 left = L;
             }

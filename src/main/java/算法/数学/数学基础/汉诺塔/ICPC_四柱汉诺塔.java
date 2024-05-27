@@ -1,12 +1,11 @@
-package 算法OJ.ICPC.江西2021;
+package 算法.数学.数学基础.汉诺塔;
 
-import java.io.*;
 import java.math.BigInteger;
 
 /**
- 已AC(打表?)
+ {@link  算法OJ.ICPC.江西2021.F汉诺塔}
  */
-public class F汉诺塔 {
+public class ICPC_四柱汉诺塔 {
     /*
     汉诺塔,但是4根柱子,求n个盘的最少操作次数
      */
@@ -52,24 +51,6 @@ public class F汉诺塔 {
                 f = f.multiply(B2);
             }
         }
-    }
-
-
-    public static void main(String[] args) throws Exception {
-        int t = I();
-        while (t-- > 0) {
-            pw.println(ans[I()]);
-        }
-        pw.flush();
-    }
-
-    static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in), 65535);
-    static StreamTokenizer st = new StreamTokenizer(bf);
-    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
-
-    static int I() throws IOException {
-        st.nextToken();
-        return (int) st.nval;
     }
 
 }

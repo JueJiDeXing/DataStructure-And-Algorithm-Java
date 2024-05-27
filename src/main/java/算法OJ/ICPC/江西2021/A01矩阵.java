@@ -21,7 +21,6 @@ public class A01矩阵 {
     static int[][] map = new int[501][501];
     static int n, m;
 
-
     public static void main(String[] args) throws Exception {
         n = I();
         m = I();
