@@ -3,8 +3,7 @@ package 数据结构实现.树.Node;
 public class AVLNode {
     public int key;
     public Object value;
-    public AVLNode left;
-    public AVLNode right;
+    public AVLNode left, right;
     public int height = 1;//高度
 
     public AVLNode() {
@@ -25,5 +24,4 @@ public class AVLNode {
         this.left = left;
         this.right = right;
     }
-
 }

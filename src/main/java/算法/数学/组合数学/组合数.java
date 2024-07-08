@@ -16,27 +16,25 @@ public class 组合数 {
     }
 
     public long C2(int n, int m) {
-        int[][] c = new int[n + 1][m + 1];
-        for (int i = 1; i <= n; i++) {//C_{n}^{1}=n
-            c[i][1] = i;
-        }
+        int[][] dp = new int[n + 1][m + 1];
+        for (int i = 1; i <= n; i++) dp[i][1] = i;
         for (int i = 1; i <= n; i++) {
             for (int j = 2; j <= m; j++) {
-                c[i][j] = c[i - 1][j] + c[i - 1][j - 1];
+                dp[i][j] = dp[i - 1][j] + dp[i - 1][j - 1];
             }
         }
-        return c[n][m];
+        return dp[n][m];
     }
 
     public long C3(int n, int m) {
-        int[] curr = new int[m + 1];
-        curr[0] = 1;
+        int[] dp = new int[m + 1];
+        dp[0] = 1;
         for (int i = 0; i <= n; i++) {
-            for (int j = Math.min(i, m); j > 0; j--) {//j倒序遍历,因为curr[j]需要使用curr[j-1]
-                curr[j] = curr[j] + curr[j - 1];
+            for (int j = Math.min(i, m); j > 0; j--) {
+                dp[j] = dp[j] + dp[j - 1];
             }
         }
-        return curr[m];
+        return dp[m];
     }
 
 
@@ -46,11 +44,11 @@ public class 组合数 {
      组合数C(n,m) = n! / ((n-m)! m!)
      */
     public int C4(int n, int m) {
-        return factorial[n] * inverse[m] % MOD * inverse[n - m] % MOD;
+        return fact[n] * inv[m] % MOD * inv[n - m] % MOD;
     }
 
     int N = 1000001, MOD = 998244353;
-    int[] factorial = new int[N], inverse = new int[N];//fac[i]=i!, facinv[i]为i!在模p下的逆元
+    int[] fact = new int[N], inv = new int[N];//fac[i]=i!, facinv[i]为i!在模p下的逆元
 
     /**
      取模性质对除法不适用,所以需要逆元,用乘法代替除法
@@ -58,11 +56,11 @@ public class 组合数 {
      */
     void init(int n) {
         for (int i = 1; i <= 2 * n; i++) {//求阶乘
-            factorial[i] = factorial[i - 1] * i % MOD;
+            fact[i] = fact[i - 1] * i % MOD;
         }
-        inverse[2 * n] = fastPow(factorial[2 * n]);
+        inv[2 * n] = fastPow(fact[2 * n]);
         for (int i = 2 * n; i > 0; i--) {//倒序递推求逆元
-            inverse[i - 1] = inverse[i] * i % MOD;
+            inv[i - 1] = inv[i] * i % MOD;
         }
     }
 

@@ -38,8 +38,8 @@ public class Dijkstra {
         Arrays.setAll(graph, k -> new ArrayList<>());
         for (int i = 0; i < m; i++) {
             int u = nextInt(), v = nextInt(), w = nextInt();
-            graph[u].add(new int[]{v, w});//有向图
-            //graph[v].add(new int[]{u, w});//无向图
+            graph[u].add(new int[]{v, w});
+            graph[v].add(new int[]{u, w});//无向图
         }
         // 求s到其他点的最短路长度
         long[] dist = new long[n + 1];

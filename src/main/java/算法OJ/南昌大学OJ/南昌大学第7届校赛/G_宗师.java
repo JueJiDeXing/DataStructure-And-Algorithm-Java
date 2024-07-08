@@ -1,21 +1,16 @@
 package 算法OJ.南昌大学OJ.南昌大学第7届校赛;
 
-import java.io.*;
 import java.util.Scanner;
+
 /**
  已AC
  */
 public class G_宗师 {
-    static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in), 65535);
-    static StreamTokenizer st = new StreamTokenizer(bf);
     static Scanner sc = new Scanner(System.in);
-    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
 
-
-    static long L() throws IOException {
+    static long L() {
         return sc.nextLong();
     }
-
 
     public static void main(String[] args) throws Exception {
         long x = L(), y = L(), k = L(), d = L();

@@ -60,22 +60,19 @@ class 括号生成 {
     public static void main(String[] args) {
         int n = 10;
         List<String>[] dp = new ArrayList[n + 1];
-        dp[0] = Arrays.asList("");//0对括号为""
-        dp[1] = Arrays.asList("()");//1对括号为"()"
+        Arrays.setAll(dp, k -> new ArrayList<>());
+        dp[0].add("");//0对括号为""
+        dp[1].add("()");//1对括号为"()"
         for (int i = 2; i <= n; i++) {
-            dp[i] = new ArrayList<>();
             for (int j = 0; j < i; j++) {
                 int n1 = j;//内层嵌套的括号数
                 int n2 = i - 1 - j;//与之平级的括号数
-                //组合
-                for (String k1 : dp[n1]) {
+                for (String k1 : dp[n1]) {  //组合
                     for (String k2 : dp[n2]) {
                         dp[j].add("(" + k1 + ")" + k2);//k1被嵌套,k2平级拼接
                     }
                 }
-
             }
-
         }
         System.out.println(Arrays.toString(dp));
         System.out.println(dp[n]);

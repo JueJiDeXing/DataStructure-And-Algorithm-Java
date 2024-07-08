@@ -7,7 +7,7 @@ import 数据结构实现.树.Node.AVLNode;
  AVL是实现之一
  */
 class AVLTree {
-    AVLNode root;
+    AVLNode root;// 根节点
 
     //左右子树高度差大于1则旋转
     private int getHeight(AVLNode node) {
@@ -70,9 +70,8 @@ class AVLTree {
     }
 
     private AVLNode balance(AVLNode node) {
-        if (node == null) {
-            return null;
-        }
+        if (node == null) return null;
+
         int bf = balanceFactor(node);
         if (bf > 1) {//左高
             int bfLeft = balanceFactor(node.left);

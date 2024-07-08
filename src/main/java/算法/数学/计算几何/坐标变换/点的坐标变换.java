@@ -22,6 +22,8 @@ public class 点的坐标变换 {
 
         /**
          坐标平移
+
+         @param p 平移后的坐标原点
          */
         public void subtract(Point p) {
             x -= p.x;

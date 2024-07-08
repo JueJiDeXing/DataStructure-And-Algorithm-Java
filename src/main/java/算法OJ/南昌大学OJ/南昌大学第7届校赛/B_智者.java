@@ -31,14 +31,18 @@ public class B_智者 {
         if (k > n) return 0;
         if (k == n) return 1;
         int[] a = new int[n];
-        for (int i = 0; i < n; i++) a[i] = I();
-        HashSet<Integer> set = getKMAX(n, a, k); //处理排前k的数
+        Queue<Integer> queue = new PriorityQueue<>();//最小堆,容量为k
+        for (int i = 0; i < n; i++) {
+            a[i] = I();
+            queue.offer(a[i]);
+            if (i >= k) queue.poll();
+        }
+        HashSet<Integer> set = new HashSet<>(queue);//a[i] in set -> a[i]排前k
         //滑窗
-        int left = 0;//当前区间[left,right]
-        int cnt = 0;//当前区间最大值个数
-        long ans = 0;// 子数组个数
-        for (int right = 0; right < n; right++) {
-            // right向右滑动
+        int left = 0; // 当前区间[left,right]
+        int cnt = 0; // 当前区间最大值个数
+        long ans = 0; // 子数组个数
+        for (int right = 0; right < n; right++) {// right向右滑动
             if (set.contains(a[right])) cnt++;
             if (cnt < k) continue;// 不满足, 继续向右
             //满足, 计算方案数
@@ -49,19 +53,11 @@ public class B_智者 {
             }
             ans += (long) (next - left) * (n - right);//左边有next-left个选择(left之前已计算过),右边有n-right个选择
             left = next;
-
         }
         return ans;
     }
 
-    private static HashSet<Integer> getKMAX(int n, int[] a, int k) {
-        Queue<Integer> queue = new PriorityQueue<>();//最小堆,容量为k
-        for (int i = 0; i < n; i++) {
-            queue.offer(a[i]);
-            if (i >= k) queue.poll();
-        }
-        return new HashSet<>(queue);//a[i] in set -> a[i]排前k
-    }
+
 }
 //50000000
 /*

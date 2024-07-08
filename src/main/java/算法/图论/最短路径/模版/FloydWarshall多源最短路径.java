@@ -73,14 +73,14 @@ public class FloydWarshall多源最短路径 {
      @param graph 图,邻接表
      */
     public static void FloydWarshall(List<Vertex3> graph) {
-        int size = graph.size();
-        int[][] distance = new int[size][size];//邻接矩阵
-        Vertex3[][] prev = new Vertex3[size][size];//记录最短路径的上级顶点
+        int n = graph.size();
+        int[][] distance = new int[n][n];//邻接矩阵
+        Vertex3[][] prev = new Vertex3[n][n];//记录最短路径的上级顶点
         //初始化
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < n; i++) {
             Vertex3 v = graph.get(i);
             Map<Vertex3, Integer> map = v.edge3s.stream().collect(Collectors.toMap(e -> e.linked, e -> e.weight));
-            for (int j = 0; j < size; j++) {
+            for (int j = 0; j < n; j++) {
                 Vertex3 u = graph.get(j);
                 if (v == u) {
                     distance[i][j] = 0;//主对角线标0,有连接标上边权,无连接标为无穷
@@ -98,10 +98,10 @@ public class FloydWarshall多源最短路径 {
           dist[1][0]  + dist[0][2] v1->v3
           dist[1][0]  + dist[0][3] v1->v4
          */
-        for (int k = 0; k < size; k++) {
-            for (int i = 0; i < size; i++) {
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
                 if (distance[i][k] == Integer.MAX_VALUE) continue;
-                for (int j = 0; j < size; j++) {
+                for (int j = 0; j < n; j++) {
                     if (distance[k][j] == Integer.MAX_VALUE) continue;
                     int newDistance = distance[i][k] + distance[k][j];
                     if (newDistance < distance[i][j]) {//如果借k到j比i直接到j更短则更新
@@ -111,14 +111,14 @@ public class FloydWarshall多源最短路径 {
                 }
             }
         }
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < n; i++) {
             //对角线小于0,说明有负环 (对角线小于0 -> 节点借其他顶点到达自身路径比自身到达自身更短)
             if (distance[i][i] < 0) {
                 throw new RuntimeException("存在负环,无解");
             }
         }
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 printPath(prev, graph, i, j);
             }
         }

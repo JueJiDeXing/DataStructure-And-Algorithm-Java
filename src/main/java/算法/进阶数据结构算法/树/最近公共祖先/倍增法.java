@@ -1,9 +1,11 @@
 package 算法.进阶数据结构算法.树.最近公共祖先;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.io.*;
 
 public class 倍增法 {
     /*
@@ -33,8 +35,7 @@ public class 倍增法 {
     public static void main(String[] args) {
         n = Int();
         int Q = Int();
-        getLog(n);
-        //最近公共祖先,只要x和y的最先公共祖先为x,则为YES,否则为NO
+        getLog(n);// 预处理log数组
         son = new ArrayList[n + 1];
         Arrays.setAll(son, k -> new ArrayList<>());
         for (int i = 1; i <= n - 1; i++) {
@@ -66,15 +67,6 @@ public class 倍增法 {
         }
     }
 
-    int up(int x, int d) {// unused
-        int res = x;
-        //d转为二进制,1的位置就向上跳对应步
-        for (int i = 0; (1 << i) <= n; i++) {
-            if (((1 << i) & d) != 0) res = fa[res][i];
-        }
-        return res;
-    }
-
     static int lca(int x, int y) {
         if (depth[x] > depth[y]) {
             int t = x;
@@ -92,7 +84,7 @@ public class 倍增法 {
         return fa[x][0];
     }
 
-    static int[] lg;// 预处理log[i]
+    static int[] lg;
 
     static void getLog(int n) {
         lg = new int[n + 1];

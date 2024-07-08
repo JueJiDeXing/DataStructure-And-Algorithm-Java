@@ -1,14 +1,11 @@
 package 算法.数学.数论.质数;
 
-import 算法.数学.数论.模.欧拉降幂;
-import 算法OJ.蓝桥杯.真题卷.第14届.省赛.Java大学A组.E互质数个数;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class 欧拉函数 {
     /*
-    求数k在[1,k]上与k互质的个数,E(k)
+    E(k):[1,k]上与k互质的个数
     1. E(a^b) = a^(b-1) * E(a)
     2. E(N) = N * mul{ (1 - 1/pi) } 其中pi是N的质因子
     3. E(N) = E(N/pi) * (pi-1) 其中pi是N的质因子
@@ -22,11 +19,10 @@ public class 欧拉函数 {
      O(sqrt(x))
      */
     public static int euler(int x) {
-        int n = (int) Math.sqrt(x);
         int res = x;
-        for (int i = 2; i <= n; i++) {
+        for (int i = 2; i * i < x; i++) {
             if (x % i != 0) continue;//找因数
-            res = res * (i - 1) / i;
+            res = res / i * (i - 1);
             while (x % i == 0) x /= i;//去除重复因数
         }
         if (x > 1) res = res / x * (x - 1);//处理剩余的质因数（若存在）
@@ -65,7 +61,8 @@ public class 欧拉函数 {
                 prime.add(i);
                 phi[i] = i - 1;// 与质数i互质的数有i-1个
             }
-            for (int j = 0; j < prime.size() && prime.get(j) * i < N; j++) {
+            for (int j = 0; j < prime.size(); j++) {
+                if (i * prime.get(j) >= N) break;
                 Integer p = prime.get(j);
                 isCom[i * p] = true;
                 if (i % p == 0) { // 性质: a % b = 0, 则E(a*b) = E(a) * b

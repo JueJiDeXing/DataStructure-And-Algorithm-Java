@@ -22,7 +22,7 @@ public class _300最长递增子序列 {
      dp[i]=MAX(dp[j]+1)<br>
      // i与j的数字进行组合(其中0 <= j < i,且nums[j]与nums[i]满足升序)
      */
-    public int lengthOfLIS(int[] nums) {
+    public int lengthOfLIS1(int[] nums) {
         int[] dp = new int[nums.length];
         Arrays.fill(dp, 1);
         for (int i = 1; i < nums.length; i++) {//第一个数字不需要再处理
@@ -94,51 +94,25 @@ public class _300最长递增子序列 {
     /**
      <h1>更新 - 模版</h1>
      */
-    public int lengthOfLIS4(int[] nums) {
-        int n = nums.length;
-        if (n == 0) return 0;
-        int[] dp = new int[n];//dp[i]:长度为i的子序列末尾是多少
-        dp[1] = nums[0];
-        int maxLen = 1;
-        for (int i = 1; i < n; i++) {
-            int x = nums[i];
-            if (dp[maxLen] <= x) {//s[i]接在最长的后面
-                dp[++maxLen] = x;
-            } else {//s[i]找一个最长的可拼接的子序列拼接, 替换长度比他大1的子序列
-                int l = 0, r = maxLen;// r:大于s[i]的; l:小于等于s[i]的
-                while (l + 1 != r) {
-                    int mid = (l + r) >>> 1;
-                    if (dp[mid] <= x) {
-                        l = mid;
-                    } else {
-                        r = mid;
-                    }
-                }
-                dp[r] = x;
-            }
-        }
-        return maxLen;
-    }
-
-    public int lengthOfLIS5(int[] nums) {
+    public int lengthOfLIS(int[] nums) {
         int n = nums.length;
         int[] dp = new int[n];//dp[i]:长度为i的子序列末尾是多少
         int maxLen = 0;
         for (int x : nums) {
-            if (maxLen == 0 || dp[maxLen] <= x) {//s[i]接在最长的后面
+            if (maxLen == 0 || dp[maxLen] <= x) {
                 dp[++maxLen] = x;
-            } else {//s[i]找一个最长的可拼接的子序列拼接, 替换长度比他大1的子序列
-                int l = 0, r = maxLen;// r:大于s[i]的; l:小于等于s[i]的
-                while (l + 1 != r) {
-                    int mid = (l + r) >>> 1;
-                    if (dp[mid] <= x) {
-                        l = mid;
-                    } else {
-                        r = mid;
-                    }
-                }
-                dp[r] = x;
+                continue;
             }
+            int l = 0, r = maxLen;// r:>s[i]; l:<=s[i]
+            while (l + 1 != r) {
+                int mid = (l + r) >>> 1;
+                if (dp[mid] <= x) {
+                    l = mid;
+                } else {
+                    r = mid;
+                }
+            }
+            dp[r] = x;
         }
         return maxLen;
     }

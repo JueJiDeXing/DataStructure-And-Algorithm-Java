@@ -2,7 +2,9 @@ package 算法.动态规划.题集.最长递增序列;
 
 import 算法OJ.蓝桥杯.真题卷.第11届.国赛.Java大学A组.D游园安排;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  求真正序列,而非长度
@@ -62,8 +64,8 @@ public class 最长递增子序列 {
         int[] path = new int[len];  //path[i],以第i个名字结尾的最长递增子序列长度(从0开始)
         path[0] = 0;
         lastString[0] = names[0];
-        int now = 0;//最长的序列长度
 
+        int now = 0;//最长的序列长度
         for (int i = 1; i < len; i++) {
             int name = names[i];
             if (name > lastString[now]) {//比最后当前最长序列的最后一个大,可以拼接到最后一个序列

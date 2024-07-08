@@ -1,7 +1,7 @@
 package 数据结构实现.树.平衡搜索树合集;
 
-import 数据结构实现.队列.链队列.LinkedListQueue;
 import 数据结构实现.树.Node.RBNode;
+import 数据结构实现.队列.链队列.LinkedListQueue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,8 +85,8 @@ public class RBTree {
      右旋
      */
     private void rightRotate(RBNode downNode) {
-        RBNode upNode = downNode.left; //上位节点
-        RBNode parentNode = downNode.parent;//更上层节点
+        RBNode upNode = downNode.left; //需要上位的节点
+        RBNode parentNode = downNode.parent;//下降节点的父节点
         RBNode rightChild = upNode.right;//上位节点的右孩子
         //右孩子托孤
         downNode.left = rightChild;

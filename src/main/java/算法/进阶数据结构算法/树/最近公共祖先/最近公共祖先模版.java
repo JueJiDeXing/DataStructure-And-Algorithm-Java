@@ -6,19 +6,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class 最近公共祖先模版 {
-    private final int[] depth;//节点深度
-    private final int[][] pa;//pa[x][y]:xy的最近公共祖先
+    int[] depth;//节点深度
+    int[][] pa;//pa[x][y]:xy的最近公共祖先
 
     /**
      传入一颗树,构建任意两个节点最近公共祖先矩阵pa
-
-     @param edges 树
      */
-    public 最近公共祖先模版(int[][] edges) {
+    public void solve(int[][] edges) {
         int n = edges.length + 1;// 节点个数
         int m = 32 - Integer.numberOfLeadingZeros(n); // n 的二进制长度
-        //建图
-        List<Integer>[] g = new ArrayList[n];
+        List<Integer>[] g = new ArrayList[n];//建图
         Arrays.setAll(g, e -> new ArrayList<>());
         for (var e : edges) { // 节点编号从 0 开始
             int x = e[0], y = e[1];

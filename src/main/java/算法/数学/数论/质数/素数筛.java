@@ -1,5 +1,7 @@
 package 算法.数学.数论.质数;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class 素数筛 {
@@ -123,6 +125,21 @@ public class 素数筛 {
                     System.out.println(j);
                     break;
                 }
+            }
+        }
+    }
+
+    static List<Integer> prime = new ArrayList<>();
+
+    static {
+        int N = 100000;
+        boolean[] notPrime = new boolean[N + 1];
+        for (int i = 2; i <= N; i++) {
+            if (!notPrime[i]) prime.add(i);
+            for (int j = 0; j < prime.size(); j++) {
+                if (i * prime.get(j) > N) break;
+                notPrime[i * prime.get(j)] = true;
+                if (i % prime.get(j) == 0) break;
             }
         }
     }

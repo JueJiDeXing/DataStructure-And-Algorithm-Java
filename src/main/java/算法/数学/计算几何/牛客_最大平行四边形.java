@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class 最大平行四边形 {
+public class 牛客_最大平行四边形 {
     /*
     给定n个不重合的点,求最大平行四边形面积
     n<=1000
