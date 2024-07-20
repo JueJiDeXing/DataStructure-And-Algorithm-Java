@@ -2,11 +2,11 @@ package 算法.数学.数学基础.其他;
 
 import java.util.Arrays;
 
+/**
+ ① 碰撞 = 穿过
+ ② 求直线上点的两两距离之和
+ */
 public class _2731移动机器人 {
-    public static void main(String[] args) {
-        _2731移动机器人 test = new _2731移动机器人();
-        System.out.println(test.sumDistance(new int[]{1, 0}, "RL", 2));
-    }
 
     /*
     有一些机器人分布在一条无限长的数轴上，他们初始坐标用一个下标从 0 开始的整数数组 nums 表示。
@@ -35,13 +35,12 @@ public class _2731移动机器人 {
     第一个机器人位于位置 0 并往左行驶，而另一个机器人位于位置 1 并往右移动。
      */
 
-
-    public int sumDistance(int[] nums, String s, int d) {
+    public int sumDistance1(int[] nums, String s, int d) {
         int MOD = 1000000007;
-        int len = nums.length;
+        int n = nums.length;
         //d秒后的位置
-        long[] arr = new long[len];
-        for (int i = 0; i < len; i++) {
+        long[] arr = new long[n];
+        for (int i = 0; i < n; i++) {
             if (s.charAt(i) == 'R') {
                 arr[i] = (long) nums[i] + d;//碰撞等价于穿过
             } else {
@@ -52,20 +51,20 @@ public class _2731移动机器人 {
         //求两两距离之和
         /*
         从最外侧大线段开始,计算贡献,然后去除最外侧端点,计算 内线段贡献
-        当前端点(i,len-i-1)的线段(长度为d)上 分布着中间的点有n=len - 2 * i - 1个 .
-        对于线段内某点, 其到两端点的距离和为线段长d, 所以, 以当前端点距离总和为d*(n+1)
+        当前端点(i,n-i-1)的线段(长度为d)上 分布着中间的点有 n - 2 * i - 1个 .
+        (对于线段内某点, 其到两端点的距离和为线段长d)
         然后去除这两个端点,计算下一条线段
         */
         long ans = 0;
-        for (int i = 0; i < len / 2; i++) {
-            long distance = (arr[len - i - 1] - arr[i]) * (len - 2 * i - 1);
+        for (int i = 0; i < n / 2; i++) {
+            long distance = (arr[n - i - 1] - arr[i]) * (n - 2 * i - 1);
             ans = (ans + distance) % MOD;
         }
         return (int) ans;
     }
 
     /**
-    组合计数
+     组合计数
      */
     public int sumDistance2(int[] nums, String s, int d) {
         long MOD = (long) 1e9 + 7;
