@@ -1,15 +1,12 @@
 package 数据结构实现.树.线段树.每天写一遍线段树;
 
-/**
- 已测试
- */
-public class day1_区间置数_区间求和_懒更新_线段树 {
+public class 区间置数_区间求和_线段树 {
     public static void main(String[] args) {
         Segment segment = new Segment(30);
         segment.update(0, 10, 20, 2);
         System.out.println(segment.query(0, 10, 20));
-        segment.update(0,15,25,1);
-        System.out.println(segment.query(0,10,20));
+        segment.update(0, 15, 25, 1);
+        System.out.println(segment.query(0, 10, 20));
     }
 
     static class Segment {

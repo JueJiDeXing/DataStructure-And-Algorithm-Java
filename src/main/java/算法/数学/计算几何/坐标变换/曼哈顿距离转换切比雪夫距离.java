@@ -33,9 +33,8 @@ public class 曼哈顿距离转换切比雪夫距离 {
     public static int minimumDistance(int[][] points) {
         TreeMap<Integer, Integer> setX = new TreeMap<>(), setY = new TreeMap<>();//不能用TreeSet,点坐标是有重复的,如果用set会同时移除多个
         for (int[] p : points) {
-            int x = p[0] + p[1];
+            int x = p[0] + p[1], y = p[1] - p[0];
             setX.put(x, setX.getOrDefault(x, 0) + 1);
-            int y = p[1] - p[0];
             setY.put(y, setY.getOrDefault(y, 0) + 1);
         }
         if (setX.size() == 1 && setY.size() == 1) {//点全部是重合的

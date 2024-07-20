@@ -1,9 +1,10 @@
 package 算法.数学.数学基础.其他;
 
+/**
+ n个人围成一个环,从第0个人开始从1报数,报到M的人出局,求最后剩下的人的编号
+ */
 public class 约瑟夫环 {
-    /*
-    n个人围成一个环,从第0个人开始从1报数,报到M的人出局,求最后剩下的人的编号
-     */
+
     /*
     令f(N,M)表示N个人报数,最后剩余的人编号为多少
     f(N,M)=(f(N−1,M)+M)%N
@@ -16,7 +17,7 @@ public class 约瑟夫环 {
 
     /**
      <h1>动态规划写法</h1>
-     从0开始编号:dp[1] = 0,dp[i] = (dp[i-1] + m)%i
+     从0开始编号:dp[1] = 0,dp[i] = (dp[i-1] + m)%i<br>
      从1开始编号:dp[1] = 1,dp[i] = (dp[i-1] + m-1)%i + 1
      */
     public static int josephus2(int n, int m) {
@@ -32,7 +33,7 @@ public class 约瑟夫环 {
      降维
      */
     public static int josephus3(int n, int m) {
-        int dp = 0;//编号从0开始
+        int dp = 0;
         for (int i = 2; i <= n; i++) {
             dp = (dp + m) % i;
         }
@@ -55,7 +56,7 @@ public class 约瑟夫环 {
      <h1>周期函数</h1>
      */
     public static int ysf(int n, int m) {
-        if (m == 1) return n;
+        if (m == 1) return n - 1;
         int a = 1, b = 1;
         while (true) {
             int x = (a - b) / (m - 1);
@@ -68,6 +69,6 @@ public class 约瑟夫环 {
             b = (m - 1 - y) % a;
             if (b == 0) b = a;
         }
-        return b;
+        return b - 1;
     }
 }
