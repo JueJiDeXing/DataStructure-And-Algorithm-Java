@@ -1,5 +1,7 @@
 package 算法.暴力优化.莫队;
 
+import 算法.暴力优化.莫队.模版.Q;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,52 +20,37 @@ public class 牛客_数列互质 {
         return (int) st.nval;
     }
 
-    static int n, m;
+    static int n, q;
     static int[] a;
 
-    static class Q {
-        int l, r, k, id;
-
-        public Q(int l, int r, int k, int id) {
-            this.l = l;
-            this.r = r;
-            this.k = k;
-            this.id = id;
-        }
-    }
 
     public static void main(String... args) throws Exception {
         n = I();
-        m = I();
+        q = I();
         a = new int[n + 1];
-        int size = (int) Math.sqrt(n);
-        int[] block = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
-            a[i] = I();
-            block[i] = i / size;
-        }
-        Q[] question = new Q[m];
-        for (int i = 0; i < m; i++) {
+        for (int i = 1; i <= n; i++) a[i] = I();
+        Q[] questions = new Q[q];
+        for (int i = 0; i < q; i++) {
             int l = I(), r = I(), k = I();
-            question[i] = new Q(l, r, k, i);
+            questions[i] = new Q(l, r, i, k);
         }
-        Arrays.sort(question, (q1, q2) -> {
-            if (block[q1.l] == block[q2.l]) {
-                return q1.r - q2.r;
-            }
-            return block[q1.l] - block[q2.l];
+        int size = (int) Math.sqrt(n);
+        Arrays.sort(questions, 0, q, (a, b) -> {
+            if (a.l / size != b.l / size) return a.l - b.l;
+            return ((a.l / size) & 1) == 0 ? (a.r - b.r) : (b.r - a.r);
         });
-        int[] ans = new int[m];
+        int[] ans = new int[q];
         int l = 1, r = 0;
         cnt = new HashMap<>();
-        for (int i = 0; i < m; i++) {
-            while (l > question[i].l) Add(--l);
-            while (r < question[i].r) Add(++r);
-            while (l < question[i].l) Sub(l++);
-            while (r > question[i].r) Sub(r--);
-            ans[question[i].id] = cal(question[i].k);
+        for (int i = 0; i < q; i++) {
+            while (l > questions[i].l) Add(--l);
+            while (r < questions[i].r) Add(++r);
+            while (l < questions[i].l) Sub(l++);
+            while (r > questions[i].r) Sub(r--);
+            int k = (int) questions[i].object;
+            ans[questions[i].id] = cal(k);
         }
-        for (int i = 0; i < m; i++) {
+        for (int i = 0; i < q; i++) {
             pw.println(ans[i]);
         }
         pw.flush();
