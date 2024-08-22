@@ -1,4 +1,5 @@
 package 算法.算法基础.快速选择算法;
+
 import 数据结构实现.堆.Heap;
 
 public class 数组中的中位数 {
@@ -30,8 +31,8 @@ public class 数组中的中位数 {
         }
     }
 
-    private Heap left = new Heap(10, true);
-    private Heap right = new Heap(10, false);
+    private Heap left = new Heap(10, ((o1, o2) -> o2 - o1));
+    private Heap right = new Heap(10, ((o1, o2) -> o1 - o2));
 
     public void addNum(int num) {
         if (left.getSize() == right.getSize()) {

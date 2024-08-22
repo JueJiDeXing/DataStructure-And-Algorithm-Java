@@ -13,17 +13,11 @@ public class Heap {
      */
     int[] array;
     int size;
-    boolean max;
     Comparator<Integer> cmp;
 
-    public Heap(int capacity, boolean max) {
+    public Heap(int capacity, Comparator<Integer> cmp) {
         array = new int[capacity];
-        this.max = max;
-        if (max) {
-            cmp = (a, b) -> Integer.compare(a, b);//大
-        } else {
-            cmp = (a, b) -> Integer.compare(b, a);//小
-        }
+        this.cmp = cmp;
     }
 
     public Heap(int[] array) {
@@ -138,8 +132,6 @@ public class Heap {
         int left = 2 * parent + 1;
         int right = left + 1;
         int search = parent;//寻找 父,左,右 三者较大的优先级
-        boolean searchLeft = max ? array[left] > array[search] : array[left] < array[search];
-        boolean searchRight = max ? array[right] > array[search] : array[right] < array[search];
         if (left < size && cmp.compare(array[left], array[search]) > 0) {
             search = left;
         }

@@ -1,4 +1,4 @@
-package 算法.数学.数学基础.其他;
+package 算法.数学.数学基础.逆序对;
 
 import java.util.ArrayList;
 
