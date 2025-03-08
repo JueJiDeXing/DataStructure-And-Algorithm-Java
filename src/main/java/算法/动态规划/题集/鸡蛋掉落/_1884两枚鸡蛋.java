@@ -18,8 +18,19 @@ public class _1884两枚鸡蛋 {
      */
 
 
-    public int twoEggDrop(int n) {
-        return 0;
-    }
 
+        public int twoEggDrop (int n) {
+            return (int) Math.ceil((Math.sqrt(n * 8 + 1) - 1) / 2);
+        }
+
+    /**
+     令f(k,c)表示k个鸡蛋,扔c次,能找到答案的最高楼层数
+     即求f(k,c)>=n的最小c值
+     f(k,c) = f(k,c-1)+f(k-1,c-1)+1
+
+
+
+     则f(k,c)=\sum_{i=1}^{k}{C(c,i)}
+
+     */
 }

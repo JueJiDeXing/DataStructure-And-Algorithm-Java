@@ -1,10 +1,6 @@
 package 算法.字符串;
 
 public class _76最小覆盖子串 {
-    public static void main(String[] args) {
-        _76最小覆盖子串 test = new _76最小覆盖子串();
-        System.out.println(test.minWindow("ADOBECODEBANC", "ABC"));
-    }
     /*
     给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串。
     如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。

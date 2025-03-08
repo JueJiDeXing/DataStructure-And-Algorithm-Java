@@ -15,18 +15,19 @@ import java.util.PriorityQueue;
 public class HuffmanTree {
 
     /*示例:
-        n                                          n
-       / \                                        / \
-     (0) (1)                                    (0) (1)
-     /     \        如果频次a<b<c -->             /     \
-    a       n                                  n       c
-           /  \                              /   \
-         (0)  (1)                          (0)   (1)
-         /      \                           /      \
-        b        c                        a        b
-    a:0                                 a:00
-    b:10                                b:01
-    c:11                                c:1
+        n                                              n
+       / \                                            / \
+     (0) (1)                                        (0) (1)
+     /     \            如果频次a<b<c -->             /     \
+    a       n                                      n       c
+           /  \                                  /   \
+         (0)  (1)                              (0)   (1)
+         /      \                               /      \
+        b        c                            a        b
+    最终编码如下:
+    a:0                                     a:00
+    b:10                                    b:01
+    c:11                                    c:1
      */
     /*构建过程
     1.统计字符频率,放入优先级队列
@@ -35,7 +36,6 @@ public class HuffmanTree {
     4.当队列只剩一个元素时,构建完成
      */
     static class Node {
-
 
         Character ch;//字符
         @Getter
@@ -68,39 +68,37 @@ public class HuffmanTree {
     }
 
     Node root;
-    String str;
-    Map<Character, Node> map = new HashMap<>();
+    Map<Character, Node> map = new HashMap<>();// 字符 -> 字符节点
 
-    public HuffmanTree(@NonNull String str) {
-        if (str.isEmpty()) {
-            throw new RuntimeException("str不能为空");
-        }
-        this.str = str;
-        char[] chars = str.toCharArray();
+    /**
+     @param cnt 频率统计表
+     */
+    public HuffmanTree(@NonNull HashMap<Character, Integer> cnt) {
         //统计频次
-        for (char c : chars) {
-            /*if (!map.containsKey(c)) {
-                map.put(c, new Node(c));
-            }
-            Node node = map.get(c);
-            node.freq++;*/
+        if (cnt.isEmpty()) {
+            throw new RuntimeException("频率表不能为空");
+        }
+        for (char c : cnt.keySet()) {
             Node node = map.computeIfAbsent(c, Node::new);
-            node.freq++;
+            node.freq = cnt.get(c);
         }
         //构造
         PriorityQueue<Node> queue = new PriorityQueue<>(
                 Comparator.comparingInt(Node::getFreq)
-        );
-        queue.addAll(map.values());
-        while (queue.size() >= 2) {
+        );// 按字符频率升序
+        queue.addAll(map.values());// 节点入队
+        while (queue.size() > 1) {// 每次取最低频率的节点
             Node x = queue.poll();
             Node y = queue.poll();
             queue.offer(new Node(x.freq + y.freq, x, y));
         }
         this.root = queue.poll();
-        //计算编码,dfs
-        StringBuilder stringBuilder = new StringBuilder();
-        int sumBytes = dfs(root, stringBuilder);
+        //给每个节点计算对应编码, 存储在code字段中
+        dfs(root, new StringBuilder());
+        for (char c : map.keySet()) {
+            Node node = map.get(c);
+            System.out.println("字符" + node.ch + "的编码为" + node.code);
+        }
 
     }
 
@@ -108,47 +106,67 @@ public class HuffmanTree {
         int sumBytes = 0;
         if (node.isLeaf()) {//找编码
             node.code = code.toString();
+
             sumBytes = node.freq * code.length();//一个叶子节点的占用
         } else {
             sumBytes += dfs(node.left, code.append(0));//向左
-            sumBytes += dfs(node.right, code.append(1));
+            sumBytes += dfs(node.right, code.append(1));//向右
         }
-        if (code.length()!=0) {
-            code.deleteCharAt(code.length() - 1);
+        if (code.length() != 0) {
+            code.deleteCharAt(code.length() - 1);// 出栈
         }
         return sumBytes;
     }
 
-    public String encode() {//编码为二进制
+    /**
+     字符串编码
+
+     @param str 需要编码的字符串
+     @return 编码后的01字符串
+     */
+    public String encode(String str) {
         char[] chars = str.toCharArray();
         StringBuilder code = new StringBuilder();
         for (char c : chars) {
+            if (!map.containsKey(c)) {
+                throw new RuntimeException("未知字符: " + c);
+            }
             code.append(map.get(c).code);
         }
         return code.toString();
     }
 
-    public String decode(String str) {//解码
-        //遇到0向左走,遇到1向右走,如果走到叶子则重置到根节点
+    /**
+     字符串解码
+
+     @param str 用本哈夫曼树编码的01字符串
+     @return 解码字符串
+     */
+    public String decode(String str) {
+        // 字符存储在叶子节点
+        // 0向左走,1向右走
+        // 如果走到叶子则找到字符节点,加入字符后指针重置到根节点
         char[] chars = str.toCharArray();
         int i = 0;
-        StringBuilder code = new StringBuilder();
+        StringBuilder ans = new StringBuilder();
         Node node = root;
         while (i < chars.length) {
-            if (!node.isLeaf()) {
+            if (!node.isLeaf()) {// 非叶子
                 if (chars[i] == '0') {
                     node = node.left;
                 } else if (chars[i] == '1') {
                     node = node.right;
+                } else {
+                    throw new RuntimeException("只能为0/1");
                 }
                 i++;
             }
-            if (node.isLeaf()) {//叶子,这里写两个if判断是避免最后i越界而还有数字待处理的情况
-                code.append(node.code);
+            if (node.isLeaf()) {//叶子 (这里写两个if判断是避免最后i越界,而未走到的情况)
+                ans.append(node.ch);
                 node = root;
             }
         }
 
-        return code.toString();
+        return ans.toString();
     }
 }

@@ -7,8 +7,7 @@ public class 平方根 {
      <h1>二分法</h1>
      */
     public int mySqrt1(int x) {
-        int left = 1;
-        int right = x;
+        int left = 1,right = x;
         int res = 0;
         while (left <= right) {//还有元素没有尝试
             int mid = (left + right) >>> 1;

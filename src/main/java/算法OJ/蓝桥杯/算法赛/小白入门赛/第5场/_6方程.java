@@ -37,11 +37,11 @@ public class _6方程 {
 
      ┌                ┐  ┌          ┐     ┌               ┐
      │ f(n-1)  f(n-2) │  │  k    1  │  =  │ f(n)  f(n-1)  │
-     │   ?       ?    │  │ -1    0  │     │   ?       ?   │
+     │                │  │ -1    0  │     │               │
      └                ┘  └          ┘     └               ┘
      ┌                ┐ ┌          ┐          ┌               ┐
      │  f(2)   f(1)   │ │  k    1  │^(n-2) =  │ f(n)  f(n-1)  │
-     │   ?       ?    │ │ -1    0  │          │   ?       ?   │
+     │                │ │ -1    0  │          │               │
      └                ┘ └          ┘          └               ┘
      f(1) = k
      f(2) = (x+1/x)^2 - 2 = k^2 - 2
@@ -55,6 +55,7 @@ public class _6方程 {
                 System.out.println(k);
                 continue;
             }
+            //long f1 = k;
             long f2 = ((long) k * k - 2) % mod;
             if (n == 2) {
                 System.out.println(f2);

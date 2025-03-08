@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-//单锁----------------------------------------------------------------------------------------------------------------------
+//单锁
 class BlockingQueue1<E> implements BlockingQueue<E> {
     private E[] array;
     private int head;
@@ -12,7 +12,7 @@ class BlockingQueue1<E> implements BlockingQueue<E> {
     private int size;
 
     private final ReentrantLock lock = new ReentrantLock();
-    private final Condition headWaits = lock.newCondition();
+    private final Condition headWaits = lock.newCondition();// 信号量
     private final Condition tailWaits = lock.newCondition();
 
 
@@ -24,14 +24,12 @@ class BlockingQueue1<E> implements BlockingQueue<E> {
     public void offer(E e) throws InterruptedException {
         lock.lockInterruptibly();
         try {
-            while (isFull()) {
-                tailWaits.await();
-            }
+            while (isFull()) tailWaits.await();
+
             array[tail] = e;
-            if (++tail == array.length) {
-                tail = 0;
-            }
+            if (++tail == array.length) tail = 0;
             size++;
+
             headWaits.signal();
         } finally {
             lock.unlock();
@@ -43,15 +41,13 @@ class BlockingQueue1<E> implements BlockingQueue<E> {
         lock.lockInterruptibly();
         E e;
         try {
-            while (isEmpty()) {
-                headWaits.await();
-            }
+            while (isEmpty()) headWaits.await();
+
             e = array[head];
             array[head] = null;
-            if (++head == array.length) {
-                head = 0;
-            }
+            if (++head == array.length) head = 0;
             size--;
+
             tailWaits.signal();
         } finally {
             lock.unlock();
@@ -65,9 +61,8 @@ class BlockingQueue1<E> implements BlockingQueue<E> {
         try {
             long t = TimeUnit.MILLISECONDS.toNanos(timeout);//毫秒转换为ns单位
             while (isFull()) {
-                if (t < 0) {
-                    return false;
-                }
+                if (t < 0) return false;
+
                 t = tailWaits.awaitNanos(t);//单位:ns,返回值:还剩余的等待时间
             }
             array[tail] = e;

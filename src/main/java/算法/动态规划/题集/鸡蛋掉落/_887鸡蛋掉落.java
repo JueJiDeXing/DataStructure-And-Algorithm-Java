@@ -26,8 +26,9 @@ public class _887鸡蛋掉落 {
      当在x层扔鸡蛋:
      如果鸡蛋碎了,dp[k][n]=dp[k-1][x]+1
      如果鸡蛋没碎,dp[k][n]=dp[k][n-x]+1
-     所以dp[k][n]= min( max( dp[k-1][x], dp[k][n-x] ) ) +1
+     所以dp[k][n]= max( dp[k-1][x], dp[k][n-x] ) +1
      <br>
+     优化:
      f(x)=dp[k-1][x]随x单增,g(x)=dp[k][n-x]随x单减
      那么h(x)=max(dp[k-1][x],dp[k][n-x])最小时应当取f(x)和g(x)的交点处的x
      由于x是离散的,所以找的是:
@@ -83,6 +84,5 @@ public class _887鸡蛋掉落 {
                 dp[k][m] = dp[k][m - 1] + dp[k - 1][m - 1] + 1;
         }
         return m;
-
     }
 }

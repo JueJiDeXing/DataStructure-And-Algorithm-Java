@@ -62,19 +62,17 @@ public class _4寻找两个正序数组的中位数 {
         int m = nums1.length, n = nums2.length;
         int left = (n + m + 1) / 2, right = (n + m + 2) / 2;
         //将偶数和奇数的情况合并，如果是奇数，会求两次同样的 k 。
-        return (getKth(nums1, 0, m - 1, nums2, 0, n - 1, left) +
-                getKth(nums1, 0, m - 1, nums2, 0, n - 1, right)) / 2.0;
+        return (getKth(nums1, 0, m - 1, nums2, 0, n - 1, left) + getKth(nums1, 0, m - 1, nums2, 0, n - 1, right)) / 2.0;
     }
 
     /**
-     在两个升序数组的有效区间上寻找第k小的数
-     nums1[start1,end1],nums2[start2,end2]
-     将nums1和nums2的区间都进行二分,比较中间,小的一方,砍掉前半区间
-     //四分查找
+     在两个升序数组的有效区间上寻找第k小的数\n
+     有效区间: nums1[start1,end1],nums2[start2,end2]\n
+     将nums1和nums2的区间都进行二分,中间值较小的一方,砍掉前半区间\n
      */
     private int getKth(int[] nums1, int start1, int end1, int[] nums2, int start2, int end2, int k) {
-        int len1 = end1 - start1 + 1, len2 = end2 - start2 + 1; //保证len1<len2,简化代码
-        if (len1 > len2) return getKth(nums2, start2, end2, nums1, start1, end1, k);
+        int len1 = end1 - start1 + 1, len2 = end2 - start2 + 1;
+        if (len1 > len2) return getKth(nums2, start2, end2, nums1, start1, end1, k);//保证len1<len2,简化代码
         //1为空,返回2的第k个 // k为1,返回这两个数组的第一个的较小值(不考虑奇偶,奇数会求两遍一样的k,偶数会求k和k+1)
         if (len1 == 0) return nums2[start2 + k - 1];
         if (k == 1) return Math.min(nums1[start1], nums2[start2]);
@@ -169,4 +167,42 @@ public class _4寻找两个正序数组的中位数 {
         }
         return 0.0;
     }
+
+    /**
+     二分
+     */
+    public double findMedianSortedArrays(int[] A, int[] B) {
+        if (A.length > B.length) {
+            int[] tmp = A;
+            A = B;
+            B = tmp;
+        }
+
+        int n = A.length, m = B.length;
+        // A[left] <= B[j+1], A[right] > B[j+1]
+        int left = -1, right = n;
+        while (left + 1 < right) {
+            int A_mid = (left + right) >>> 1;
+            int mid = ((n + m + 1) >>> 1) - A_mid - 2;
+            if (mid + 1 == m || A[A_mid] <= B[mid + 1]) {
+                left = A_mid;
+            } else {
+                right = A_mid;
+            }
+        }
+
+        // 此时 left 等于 right-1
+        // A[left] <= B[j+1] 且 A[right] > B[j'+1] = B[j]，所以答案是 i=left
+        int i = left;
+        int j = (n + m + 1) / 2 - 2 - i;
+        int ai = i >= 0 ? A[i] : Integer.MIN_VALUE;
+        int bj = j >= 0 ? B[j] : Integer.MIN_VALUE;
+        int ai1 = i + 1 < n ? A[i + 1] : Integer.MAX_VALUE;
+        int bj1 = j + 1 < m ? B[j + 1] : Integer.MAX_VALUE;
+        int max1 = Math.max(ai, bj);
+        int min2 = Math.min(ai1, bj1);
+        return (n + m) % 2 > 0 ? max1 : (max1 + min2) / 2.0;
+    }
+
+
 }

@@ -82,14 +82,29 @@ public class 素数筛 {
         }
         return sum;
     }
+    // 欧拉筛static写法
+    static List<Integer> prime = new ArrayList<>();
+
+    static {
+        int N = 100000;
+        boolean[] notPrime = new boolean[N + 1];
+        for (int i = 2; i <= N; i++) {
+            if (!notPrime[i]) prime.add(i);
+            for (int j = 0; j < prime.size(); j++) {
+                if (i * prime.get(j) > N) break;
+                notPrime[i * prime.get(j)] = true;
+                if (i % prime.get(j) == 0) break;
+            }
+        }
+    }
 
     /*
     定义函数f(x)为x不同的素因子个数，
-    对于一个正整数a，请找到一个最小的正整数b，使得a<b,f(a)<f(b) 。
+    对于一个正整数a，请找到一个最小的正整数b，使得a<b,f(a)<f(b)
 
     题目描述给定一个数q，表示询问数，
     以及q个正整数，表示题目背景中的a，
-    对每个a，你需要求出相应的b。
+    对每个a，你需要求出相应的b
 
     格式输入格式第一行一个正整数q，表示询问数第2∼q+1行每行一个正整数，表示题目背景中的a
     输出格式每行一个正整数b
@@ -97,7 +112,7 @@ public class 素数筛 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int q = sc.nextInt();
-        int N = 40000;//3万过不了
+        int N = 30000;
         //素数筛
         boolean[] isComposite = new boolean[N];
         isComposite[0] = isComposite[1] = true;
@@ -129,19 +144,5 @@ public class 素数筛 {
         }
     }
 
-    static List<Integer> prime = new ArrayList<>();
-
-    static {
-        int N = 100000;
-        boolean[] notPrime = new boolean[N + 1];
-        for (int i = 2; i <= N; i++) {
-            if (!notPrime[i]) prime.add(i);
-            for (int j = 0; j < prime.size(); j++) {
-                if (i * prime.get(j) > N) break;
-                notPrime[i * prime.get(j)] = true;
-                if (i % prime.get(j) == 0) break;
-            }
-        }
-    }
 
 }

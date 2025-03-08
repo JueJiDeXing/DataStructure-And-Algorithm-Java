@@ -1,4 +1,4 @@
-package 算法.动态规划.题集.子数组问题;
+package 算法.动态规划.题集.子序列问题;
 
 import 算法OJ.Codeforces.构造题单._9二分数组;
 

@@ -11,5 +11,5 @@ public class 最小公倍数 {
     由于 mi+ni = min(mi,ni)+max(mi,ni)
     所以 a*b = gcd(a,b)*lcm(a,b)
     lcm(a,b) = a*b/gcd(a,b)
-     */
+     */ 
 }

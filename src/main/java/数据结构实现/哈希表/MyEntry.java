@@ -1,7 +1,7 @@
 package 数据结构实现.哈希表;
 
 /**
- Entry节点类
+ Entry节点(链表)
 
  @属性 hash 哈希码
  @属性 key, value 存储的键值对

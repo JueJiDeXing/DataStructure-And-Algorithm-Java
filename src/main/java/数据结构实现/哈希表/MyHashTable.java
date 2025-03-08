@@ -62,7 +62,6 @@ public class MyHashTable {
             }
             //没有重复的key,新建一个节点
             p.next = new MyEntry(hash, key, value);
-
         }
         size++;
         if (size > threshold) {

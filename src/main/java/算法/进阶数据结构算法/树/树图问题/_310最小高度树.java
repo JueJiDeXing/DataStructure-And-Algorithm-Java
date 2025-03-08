@@ -74,7 +74,7 @@ public class _310最小高度树 {
         int n = adj.length;
         Queue<Integer> queue = new ArrayDeque<>();
         boolean[] visit = new boolean[n];
-        queue.offer(u);
+        queue.offer(u);//起始节点
         visit[u] = true;
         int node = -1;
 
@@ -84,6 +84,7 @@ public class _310最小高度树 {
             for (int v : adj[curr]) {
                 if (visit[v]) continue;
                 visit[v] = true;
+
                 parent[v] = curr;
                 queue.offer(v);
             }

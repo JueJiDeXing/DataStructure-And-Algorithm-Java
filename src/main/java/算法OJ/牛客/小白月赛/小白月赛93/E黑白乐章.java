@@ -8,8 +8,8 @@ import java.io.*;
 public class E黑白乐章 {
     /*
     长为n的0/1序列
-    在区间[L,R]上, 如果 a[l]^a[r]==1, 则(l,r)有l-r的价值
-    给出m个询问，每次询问一个区间[L,R]的价值
+    如果 a[l]^a[r]==1, 则(l,r)有l-r的价值
+    给出m个询问，每次询问<L,R>的价值
      */
     static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in), 65535);
     static StreamTokenizer st = new StreamTokenizer(bf);

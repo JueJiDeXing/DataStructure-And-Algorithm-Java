@@ -1,4 +1,4 @@
-package 算法.动态规划.其他;
+package 算法.动态规划.区间dp;
 
 public class _312戳气球 {//TODO
     public int maxCoins(int[] nums) {
@@ -12,7 +12,8 @@ public class _312戳气球 {//TODO
                 int r = l + len - 1;
                 //left~right
                 for (int k = l + 1; k <= r - 1; k++) {
-                    //枚举k, left~k + 中间乘积 + k~right
+                    // 戳破arr[l+1,k-1]和arr[k+1,r]后,选择戳破arr[k]
+                    //
                     f[l][r] = Math.max(f[l][r], f[l][k] + arr[l] * arr[k] * arr[r] + f[k][r]);
                 }
             }

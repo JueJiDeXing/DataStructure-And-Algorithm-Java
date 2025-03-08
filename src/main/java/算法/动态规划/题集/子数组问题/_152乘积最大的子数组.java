@@ -7,11 +7,18 @@ public class _152乘积最大的子数组 {
     测试用例的答案是一个 32-位 整数。
     子数组 是数组的连续子序列。
      */
+    public int max(int a, int b, int c) {
+        return Math.max(a, Math.max(b, c));
+    }
+
+    public int min(int a, int b, int c) {
+        return Math.min(a, Math.min(b, c));
+    }
 
     /**
      <h1>解1</h1>
      同时维护最大乘积和最小乘积<br>
-     如果碰到负数,则需要最小乘积尽可能的小,以达到最大乘积
+     因为如果碰到负数,则需要最小乘积尽可能的小,以达到最大乘积
      */
     public int maxProduct1(int[] nums) {
         int maxF = nums[0], minF = nums[0], ans = nums[0];
@@ -19,8 +26,8 @@ public class _152乘积最大的子数组 {
         for (int i = 1; i < length; ++i) {
             int num = nums[i];
             int mx = maxF * num, mn = minF * num;
-            maxF = Math.max(mx, Math.max(num, mn));
-            minF = Math.min(mn, Math.min(num, mx));
+            maxF = max(mx, num, mn);
+            minF = min(mx, num, mn);
             ans = Math.max(maxF, ans);
         }
         return ans;

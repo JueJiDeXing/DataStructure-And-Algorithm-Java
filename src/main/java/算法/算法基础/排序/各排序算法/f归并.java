@@ -17,12 +17,9 @@ public class f归并 {
     }
 
 
-
     private void split(int[] a1, int left, int right, int[] a2) {
         // 2.治
-        if (left == right) {
-            return;
-        }
+        if (left == right) return;
         // 1.分
         int m = (left + right) >>> 1;//从中间分隔
         split(a1, left, m, a2);
@@ -32,6 +29,7 @@ public class f归并 {
         merge(a1, left, m, m + 1, right, a2);//合并两个有序区域到a2
         System.arraycopy(a2, 0, a1, left, right - left + 1);//将合并后的再存入a1
     }
+
     /**
      合并两个有序数组
 
@@ -63,6 +61,7 @@ public class f归并 {
         }
 
     }
+
     //非递归实现--------------------------------------------------------------
     public void mergeSort2(int[] a1) {
         int n = a1.length;

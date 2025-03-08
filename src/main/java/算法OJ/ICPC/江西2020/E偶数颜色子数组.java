@@ -5,15 +5,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StreamTokenizer;
 import java.util.HashMap;
+
 /**
  已AC(简单,前缀异或)
  */
 public class E偶数颜色子数组 {
     /*
-    长度为n的数组, c[i]表示第i个位置的颜色, 求有多少个子数组满足以下条件:
-    子数组内各颜色的出现次数为偶数
-    c[i]<=20
+    长度为n的数组, c[i]表示第i个位置的颜色, c[i]<=20
+    求有多少个子数组满足条件: 子数组内各颜色的出现次数为偶数
+    T=O(n)
+    tags: 前缀异或,    两数之和->两数相等
      */
+
 
     /**
      [l,r]满足要求
@@ -29,11 +32,12 @@ public class E偶数颜色子数组 {
             c[i] = I();
         }
         int[] preFix = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= n; i++) {// preFix[i] = ^{ c[0,i-1] }
             preFix[i] = preFix[i - 1] ^ (1 << c[i]);
         }
+        // 求 preFix[i] = preFix[j] 的下标对(i,j)个数
         HashMap<Integer, Integer> preCnt = new HashMap<>();
-        preCnt.put(0, 1);
+        preCnt.put(0, 1);// preFix[0] = 0
         long ans = 0;
         for (int i = 1; i <= n; i++) {
             int cnt = preCnt.getOrDefault(preFix[i], 0);
@@ -49,5 +53,5 @@ public class E偶数颜色子数组 {
     static int I() throws IOException {
         st.nextToken();
         return (int) st.nval;
-    } 
+    }
 }

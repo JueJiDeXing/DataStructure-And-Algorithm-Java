@@ -33,9 +33,9 @@ public class _43字符串相乘 {
             int n1 = num1.charAt(i) - '0';
             for (int j = len2 - 1; j >= 0; j--) {
                 int n2 = num2.charAt(j) - '0';
-                int n = n1 * n2 + res[i + j + 1];//res[i+j+1]为这次的低位,上次的高位,加上次的高位
-                res[i + j + 1] = n % 10;//低位为结果余10
-                res[i + j] += n / 10;//高位为结果除以10再加上这次的低位,如果此时溢出先暂存,下轮循环处理
+                int n = n1 * n2 + res[i + j + 1];//res[i+j+1]位置=这一次乘积的低位=上一次乘积的高位
+                res[i + j + 1] = n % 10;//低位: 这一次低位 + 上一次高位 结果余10
+                res[i + j] += n / 10;//高位: 结果除以10再加上这次的低位,如果此时溢出先暂存,下轮循环处理
             }
         }
         StringBuilder sb = new StringBuilder();

@@ -7,11 +7,13 @@ public class 模上的除法提取 {
      <pre>
     求 (a / k) mod b
 
-    法1: 令 (a / k) mod b = x ,令商为t
-     则 a / k = bt + x
-     a = kbt + kx
-     a mod kb = kx
-     (a mod kb) / k =x
+    法1: (a mod kb) / k
+     令 (a / k) mod b = x
+     设 a / k = bt + x  --> x < b
+     ∴ a = kbt + kx
+       a mod kb = kx  <-- kx < kb
+       (a mod kb) / k = x
+       (a mod kb) / k = (a / k) mod b
      所以 (a / k) mod b = (a mod kb) / k
      即将除法提取到了模外
 

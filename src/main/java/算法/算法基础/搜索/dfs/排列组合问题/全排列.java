@@ -3,6 +3,7 @@ package 算法.算法基础.搜索.dfs.排列组合问题;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 public class 全排列 {
     //求一个序列的全部排列
@@ -42,6 +43,7 @@ public class 全排列 {
             list.remove(index);//出栈
             isUsed[i] = false;
         }
+
     }
 
     /**

@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class 最大间距 {
+    /**
+     _164最大间距
+
+     @param args
+     */
     public static void main(String[] args) {
         最大间距 test = new 最大间距();
         System.out.println(test.maximumGap(new int[]{5, 20, 1, 4, 9, 10}));
@@ -11,54 +16,54 @@ public class 最大间距 {
 
     //数组排序后,相邻元素的最大差值
     //限制:O(n)
-    //桶排序,将排序后的数组元素间距转化为桶的间距
-    static class Pair {//桶的最大最小值组成的数对
-        int min = 1000_000_000;
-        int max = 0;
 
-        void add(int val) {
-            max = Math.max(max, val);
-            min = Math.min(min, val);
-        }
-    }
+    /**
+    设数组大小为n, 最小值min, 最大值max
+    则问题可以表示为, 在[min,max]上切n-2刀, 最长的一块是多长
 
+    考虑平均长度: d = (max - min) / (n-1) 上取整
+    在最极限的情况下, 恰好平分, 答案为d
+    其他情况下, 一定有大于d的
+    即: 答案质至少为d
+
+    根据"答案至少为d", 用桶排序
+    设置一个桶的桶内距离最大为d-1, 那么答案一定就是桶与桶之间的距离
+     */
     public int maximumGap(int[] nums) {
-        if (nums.length < 2) {
+        int n = nums.length;
+        if (n < 2) {
             return 0;
         }
         // 找这个数组的最大最小值
         int max = Arrays.stream(nums).max().getAsInt();
         int min = Arrays.stream(nums).min().getAsInt();
-
+        int diff = max - min;
+        if (diff <= 1) return diff;
         // 准备桶
-        /* 计算桶个数               期望桶个数
-        (max - min) / range + 1 =  a.length   -> range = (max - min) / (a.length -1)
-        (max - min) / range + 1 =  a.length + 1   -> range = (max - min) / a.length
-         */
-        int range = Math.max((max - min) / nums.length, 1);//每个桶的元素个数
-        int bucketSize = (max - min) / range + 1;//桶数比元素多一个,在有空桶的情况下,桶内间距不可能大于桶间距
-        Pair[] buckets = new Pair[bucketSize];
-
-        //放入数据
-        for (int num : nums) {
-            int index = (num - min) / range;
-            if (buckets[index] == null) {
-                buckets[index] = new Pair();
-            }
-            buckets[index].add(num);//每个桶只记录最大最小值
+        int d = (diff + n - 2) / (n - 1); // 答案至少是d
+        int bucketCnt = diff / d + 1;
+        int[][] buckets = new int[bucketCnt][2];
+        for (int[] b : buckets) {
+            b[0] = Integer.MAX_VALUE;
+            b[1] = Integer.MIN_VALUE;
+        }
+        for (int x : nums) {
+            int[] b = buckets[(x - min) / d];
+            b[0] = Math.min(b[0], x); // 维护桶内元素的最小值和最大值
+            b[1] = Math.max(b[1], x);
         }
 
-        // 相邻元素(桶)的最大差值
-        int r = Integer.MAX_VALUE;
-        int lastMax = buckets[0].max;
-        for (int i = 1; i < buckets.length; i++) {
-            Pair bucket = buckets[i];
-            if (bucket != null) {//跳过空桶
-                r = Math.min(r, bucket.min - lastMax);
-                lastMax = bucket.max;
+        int ans = 0;
+        int preMax = Integer.MAX_VALUE;
+        for (int[] b : buckets) {
+            if (b[0] != Integer.MAX_VALUE) { // 非空桶
+                // 桶内最小值，减去上一个非空桶的最大值
+                ans = Math.max(ans, b[0] - preMax);
+                preMax = b[1];
             }
         }
-        return r;
+        return ans;
+
     }
 
     /**

@@ -33,7 +33,8 @@ public class Prim {
      3.每次选择最小临时距离的未访问点作为当前顶点<br>
      4.遍历当前顶点邻居,更新邻居的距离值 min(邻居距离,边权)<br>
      5.当前顶点处理完所有邻居后当前顶点设为已访问<br>
-     与Dijkstra算法仅在第4步不同,距离不累加,而是表示距离上一个节点的距离
+     与Dijkstra算法仅在第4步不同,距离不累加,而是表示距离上一个节点的距离<br>
+     时间复杂度 邻接矩阵O(V^2) 邻接表O((V+E)log(V))
      */
     public void prim(List<Vertex> graph, Vertex source) {
         ArrayList<Vertex> list = new ArrayList<>(graph);//未访问顶点
@@ -118,11 +119,10 @@ public class Prim {
     }
 
     private int chooseMinDistanceVertex(int[] distance, boolean[] isVisited) {
-        int n = distance.length;
         int min = Integer.MAX_VALUE;
-        int minIndex = 0;
-        for (int i = 0; i < n; i++) {
-            if (distance[i] == 0 || isVisited[i]) continue;
+        int minIndex = -1;
+        for (int i = 0; i < distance.length; i++) {
+            if (isVisited[i]) continue;
             if (distance[i] < min) {
                 min = distance[i];
                 minIndex = i;
@@ -132,13 +132,12 @@ public class Prim {
     }
 
     private void updateNeighboursDistance(int[][] graph, int[] distance, boolean[] isVisited, int v) {
-        int n = graph.length;
-        int[] edges = graph[v];
-        for (int i = 0; i < n; i++) {//遍历顶点v的所有邻居
-            if (edges[i] == 0 || isVisited[i]) continue; // list.contains(n)
+        for (int i = 0; i < graph.length; i++) {//遍历顶点v的所有邻居
+            int w = graph[v][i];
+            if (isVisited[i]) continue; // list.contains(n)
             //更新最短路径
-            if (edges[i] < distance[i]) {//距离不累加,直接表示为与上一个顶点的距离
-                distance[i] = edges[i];
+            if (w < distance[i]) {//距离不累加,直接表示为与上一个顶点的距离
+                distance[i] = w;
             }
         }
     }

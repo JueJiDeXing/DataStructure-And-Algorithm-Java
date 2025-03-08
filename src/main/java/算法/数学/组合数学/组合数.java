@@ -48,7 +48,7 @@ public class 组合数 {
     }
 
     int N = 1000001, MOD = 998244353;
-    int[] fact = new int[N], inv = new int[N];//fac[i]=i!, facinv[i]为i!在模p下的逆元
+    int[] fact = new int[N], inv = new int[N];//fac[i]=i!, inv[i]为i!在模p下的逆元
 
     /**
      取模性质对除法不适用,所以需要逆元,用乘法代替除法

@@ -1,5 +1,6 @@
 package 算法.动态规划.题集.背包问题;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 
@@ -108,5 +109,6 @@ public class 背包问题 {
         }
         return dp[total];
     }
+
 }
 

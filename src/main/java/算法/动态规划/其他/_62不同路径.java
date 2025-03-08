@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class _62不同路径 {
     /*
-    矩形
-    从左上角走到右下角,只能向右/向下走,问一共有多少条路径
+    条矩形
+    从左上角走到右下角,只能向右/向下走,问一共有多少路径
      */
     public static void main(String[] args) {
         int unique1 = uniquePaths1(7, 3);

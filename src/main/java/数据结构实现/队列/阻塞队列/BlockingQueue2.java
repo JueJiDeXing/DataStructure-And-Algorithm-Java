@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-//双锁----------------------------------------------------------------------------------------------------------------------
+//双锁
 class BlockingQueue2<E> implements BlockingQueue<E> {
     private final E[] array;
     private int head;
@@ -27,38 +27,69 @@ class BlockingQueue2<E> implements BlockingQueue<E> {
         tailLock.lockInterruptibly();//使用了两把锁,在offer的同时也可以poll,提高效率
         int c;//新增元素前的元素个数
         try {
-            while (isFull()) {
-                tailWaits.await();
-            }
+            while (isFull()) tailWaits.await();
+
             array[tail] = e;
-            if (++tail == array.length) {
-                tail = 0;
-            }
-            //size++;// <!-- 1.读取 2.自增 3.写回 -->
+            if (++tail == array.length) tail = 0;
+
+            //size++;// <!-- 非原子操作 1.读取 2.自增 3.写回 -->
             c = size.getAndIncrement();//自增
-            if (c + 1 < array.length) {//队列仍然非满,则唤醒下一个offer线程
-                tailWaits.signal();
-            }
-//            headLock.lock();// <!-- 死锁问题 -->
-//            try {
-//                headWaits.signal();//唤醒前先加锁,配对使用
-//            } finally {
-//                headLock.unlock();
-//            }
+            if (c + 1 < array.length) tailWaits.signal();//队列仍然非满,则唤醒下一个offer线程
+
+            //            headLock.lock();// <!-- 会产生死锁问题 -->
+            //            try {
+            //                headWaits.signal();//唤醒前先加锁,配对使用
+            //            } finally {
+            //                headLock.unlock();
+            //            }
         } finally {
             tailLock.unlock();
         }
         // 队列元素个数0->1时加锁
-        if (c == 0) {//级联思想减少加锁次数,offer方只有一个线程加poll的锁,poll方一个线程解锁另一个线程(级联)
+        if (c == 0) {//级联思想:减少加锁次数,offer方只有一个线程加poll的锁,poll方一个线程解锁另一个线程(级联)
             headLock.lock();//把加锁与解锁写在与另一个锁平级的地方,避免死锁
             try {
                 headWaits.signal();
             } finally {
                 headLock.unlock();
-
             }
         }
     }
+    @Override
+    public boolean offer(E e, long timeout) throws InterruptedException {
+        tailLock.lockInterruptibly();
+        int c;
+        try {
+            long t = TimeUnit.MILLISECONDS.toNanos(timeout);//毫秒转换为ns单位
+            while (isFull()) {
+                if (t < 0) return false;
+                t = tailWaits.awaitNanos(t);//单位:ns,返回值:还剩余的等待时间
+            }
+            array[tail] = e;
+            if (++tail == array.length) tail = 0;
+
+            //size++;
+            c = size.getAndIncrement();
+            //            headLock.lock();
+            //            try {
+            //                headWaits.signal();
+            //            } finally {
+            //                headLock.unlock();
+            //            }
+        } finally {
+            tailLock.unlock();
+        }
+        if (c == 0) {
+            headLock.lock();
+            try {
+                headWaits.signal();
+            } finally {
+                headLock.unlock();
+            }
+        }
+        return true;
+    }
+
 
     @Override
     public E poll() throws InterruptedException {
@@ -66,26 +97,22 @@ class BlockingQueue2<E> implements BlockingQueue<E> {
         E e;
         int c;//取走前的元素个数
         try {
-            while (isEmpty()) {
-                headWaits.await();
-            }
+            while (isEmpty()) headWaits.await();
+
             e = array[head];
             array[head] = null;
-            if (++head == array.length) {
-                head = 0;
-            }
+            if (++head == array.length) head = 0;
+
             //size--;
             c = size.getAndDecrement();
 
-            if (c > 1) {//减少前大于1,说明有富余的,可以唤醒其他一个poll线程
-                headWaits.signal();
-            }
-//            tailLock.lock();
-//            try {
-//                tailWaits.signal();
-//            } finally {
-//                tailLock.unlock();
-//            }
+            if (c > 1) headWaits.signal();//减少前大于1,说明有富余的,可以唤醒其他一个poll线程
+            //            tailLock.lock();
+            //            try {
+            //                tailWaits.signal();
+            //            } finally {
+            //                tailLock.unlock();
+            //            }
         } finally {
             headLock.unlock();
         }
@@ -99,44 +126,6 @@ class BlockingQueue2<E> implements BlockingQueue<E> {
         }
 
         return e;
-    }
-
-    @Override
-    public boolean offer(E e, long timeout) throws InterruptedException {
-        tailLock.lockInterruptibly();
-        int c;
-        try {
-            long t = TimeUnit.MILLISECONDS.toNanos(timeout);//毫秒转换为ns单位
-            while (isFull()) {
-                if (t < 0) {
-                    return false;
-                }
-                t = tailWaits.awaitNanos(t);//单位:ns,返回值:还剩余的等待时间
-            }
-            array[tail] = e;
-            if (++tail == array.length) {
-                tail = 0;
-            }
-            //size++;
-            c = size.getAndIncrement();
-//            headLock.lock();
-//            try {
-//                headWaits.signal();
-//            } finally {
-//                headLock.unlock();
-//            }
-        } finally {
-            tailLock.unlock();
-        }
-        if (c == 0) {
-            headLock.lock();
-            try {
-                headWaits.signal();
-            } finally {
-                headLock.unlock();
-            }
-        }
-        return true;
     }
 
 

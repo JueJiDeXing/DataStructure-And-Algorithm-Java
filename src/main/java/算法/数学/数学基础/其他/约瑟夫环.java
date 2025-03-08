@@ -18,7 +18,7 @@ public class 约瑟夫环 {
     /**
      <h1>动态规划写法</h1>
      从0开始编号:dp[1] = 0,dp[i] = (dp[i-1] + m)%i<br>
-     从1开始编号:dp[1] = 1,dp[i] = (dp[i-1] + m-1)%i + 1
+     从1开始编号(也可以用从0编号, 让最后的结果+1):dp[1] = 1,dp[i] = (dp[i-1] + m-1)%i + 1
      */
     public static int josephus2(int n, int m) {
         int[] dp = new int[n + 1];//编号从0开始

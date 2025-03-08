@@ -13,8 +13,8 @@ import java.util.Queue;
  */
 public class ICPC_重叠区间 {
     /*
-    m个区间, 最大化min{k,x}
-    k为选择的区间个数, x为区间的重叠部分长度
+    给定m个区间,从中选择k个,使重叠部分最长
+    即:最大化min{k,x}, k为选择的区间个数, x为区间的重叠部分长度
      */
 
 }

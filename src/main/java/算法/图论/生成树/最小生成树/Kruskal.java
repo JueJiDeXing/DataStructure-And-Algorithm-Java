@@ -42,7 +42,7 @@ public class Kruskal {
      1.将所有顶点设为"不连通" (使用并查集表达连通状态)<br>
      2.将所有边按边权升序<br>
      3.每次选择最小权边,如果两端是不连通的,则将两端连通<br>
-
+     时间复杂度 O(ElogE)
      @param queue 使用优先级队列存储边,每次获取权重最小的边
      */
     public static List<Edge> kruskal(int size, Queue<Edge> queue) {

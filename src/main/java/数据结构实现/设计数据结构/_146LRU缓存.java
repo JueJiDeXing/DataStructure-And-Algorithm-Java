@@ -107,12 +107,12 @@ class LRUCache {
             list.addFirst(node);
         } else {//新增
             Node node = new Node(key, value);
-            list.addFirst(node);
-            map.put(key, node);
-            if (map.size() > capacity) {
+            if (map.size() == capacity) {// 超容量了
                 Node removed = list.removeLast();
                 map.remove(removed.key);
             }
+            list.addFirst(node);
+            map.put(key, node);
         }
     }
 }

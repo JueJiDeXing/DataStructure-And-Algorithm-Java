@@ -10,6 +10,11 @@ public class _85最大矩形 {
     找出只包含 1 的最大矩形，并返回其面积。
      */
 
+    public static void main(String[] args) {
+        _85最大矩形 test = new _85最大矩形();
+        System.out.println(test.maximalRectangle2(new char[][]{{'1'}}));
+    }
+
     /**
      <h2>思路 :</h2>
      假设矩阵只到第i行, 那么统计第i行上方连续1的个数, 可以得到一个柱状图<br>
@@ -66,11 +71,6 @@ public class _85最大矩形 {
             }
         }
         return ans;
-    }
-
-    public static void main(String[] args) {
-        _85最大矩形 test = new _85最大矩形();
-        System.out.println(test.maximalRectangle2(new char[][]{{'1'}}));
     }
 
     /**

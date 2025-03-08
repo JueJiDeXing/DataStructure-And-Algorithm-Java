@@ -99,14 +99,14 @@ public class g快速 {
         while (i < j) {
             //必须先找小的再找大的(先j后i),否则最后与基准点互换时会把大的换到左边(因为此时i,j相遇,而i指向的还是大的)
             while (i < j && a[j] > pv) {
-                j--;//寻找小的
+                j--;//寻找小的(或等于)
             }
             while (i < j && pv >= a[i]) {
                 i++;//寻找大的
             }
             swap(a, i, j);  //找到则交换
         }
-        swap(a, left, i);
+        swap(a, left, i);// a[left]为选择的基准点,  a[i]此时可能指向大值
         return i;
     }
 

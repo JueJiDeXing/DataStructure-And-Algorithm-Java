@@ -23,6 +23,9 @@ public class 能否被两个数模相等 {
         return (int) tokenizer.nval;
     }
 
+    /**
+     <h1>暴力</h1>
+     */
     public static void main(String[] args) {
         int T = Int();
         Set<Integer> set = new HashSet<>();//n%k
@@ -42,7 +45,15 @@ public class 能否被两个数模相等 {
 
     /**
      <h1>中国剩余定理</h1>
-     如果找不到n mod x = n mod y,那么一定有n%1=0, n%2=1, n%3=2,...n%m=m-1
+     如果找不到n mod x = n mod y
+     说明 n % i 为 1~m-1上的排列    i∈[1,m]
+     ∵ n%1 = 0
+     => n%2 = 1    --- n%2只有0/1两个取值,0被n%1占了,值只能取1
+     => n%3 = 2    --- 同理
+     => ...
+     => n%i = i-1
+     即: 只要判断 n%i = i-1 对 i∈[1,m] 是否都成立即可
+     如果都成立,说明找不到,输出No; 如果某一个不成立,说明可以找到,输出Yes
      */
     private static void solve2() {
         Scanner sc = new Scanner(System.in);

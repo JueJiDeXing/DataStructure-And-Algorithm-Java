@@ -73,8 +73,9 @@ public class 石子合并_四边形不等式优化 {
      */
     public static void main(String[] args) {
         int n = Int();
-        int[][] f = new int[n + 2][n + 2], s = new int[n + 1][n + 1];
-        int[] sum = new int[n + 1];
+        long[][] f = new long[n + 2][n + 2];
+        int[][] s = new int[n + 1][n + 1];
+        long[] sum = new long[n + 1];
         for (int i = 1; i <= n; i++) {
             sum[i] = Int() + sum[i - 1];
         }
@@ -82,7 +83,8 @@ public class 石子合并_四边形不等式优化 {
         for (int i = n; i > 0; i--) {
             for (int j = i + 1; j <= n; j++) {
                 //求f[i][j]的最优转移, 最小化f[i][k] + f[k+1][j]
-                int min = Integer.MAX_VALUE, p = 0;
+                long min = Long.MAX_VALUE;
+                int p = 0;
                 for (int k = s[i][j - 1]; k <= s[i + 1][j]; k++) {
                     if (min > f[i][k] + f[k + 1][j]) {
                         min = f[i][k] + f[k + 1][j];

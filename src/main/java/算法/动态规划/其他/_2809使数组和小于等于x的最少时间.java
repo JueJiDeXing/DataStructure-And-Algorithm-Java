@@ -7,9 +7,11 @@ import java.util.List;
 public class _2809使数组和小于等于x的最少时间 {
     /*
     给你两个长度相等下标从 0 开始的整数数组 nums1 和 nums2 。
-    每一秒，对于所有下标 0 <= i < nums1.length ，nums1[i] 的值都增加 nums2[i] 。
+    每一秒，nums1[i] 的值都增加 nums2[i] 。
+
     操作 完成后 ，你可以进行如下操作：
-    选择任一满足 0 <= i < nums1.length 的下标 i ，并使 nums1[i] = 0 。
+    选择任一下标 i ，使 nums1[i] = 0 。
+
     同时给你一个整数 x 。
     请你返回使 nums1 中所有元素之和 小于等于 x 所需要的 最少 时间，如果无法实现，那么返回 -1 。
      */
@@ -63,7 +65,6 @@ public class _2809使数组和小于等于x的最少时间 {
         }
         //找最小的满足的t
         for (int t = 0; t <= n; t++) {
-
             if (s1 + s2 * t - f[t] <= x) {
                 return t;
             }

@@ -16,7 +16,7 @@ public class 快速选择 {
         System.out.println(choose(array, 4));
     }
 
-    public int _choose(int[] array, int i) {//基础版
+    public int _choose(int[] array, int i) {//暴力版
         Arrays.sort(array);
         return array[i];
     }

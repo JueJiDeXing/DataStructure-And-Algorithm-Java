@@ -34,9 +34,8 @@ public class 第K大的元素 {
     public int partition(int[] nums, int left, int right) {
         int index = ThreadLocalRandom.current().nextInt(right - left + 1) + left;
         swap(nums, right, index);
-        int pv = nums[right];//变为最右侧
-        int i = left;
-        int j = right;
+        int pv = nums[right];// 写点不一样的, 变为最右侧
+        int i = left, j = right;
         while (i < j) {
             while (i < j && nums[i] > pv) {//按降序排序
                 i++;//先找大的

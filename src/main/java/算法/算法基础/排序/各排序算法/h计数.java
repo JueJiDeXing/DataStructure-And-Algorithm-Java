@@ -24,7 +24,6 @@ public class h计数 {
                 a[k++] = i;
                 count[i]--;
             }
-
         }
     }
 

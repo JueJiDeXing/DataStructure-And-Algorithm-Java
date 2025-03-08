@@ -5,8 +5,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  测试--单锁实现
- synchronized 关键字,功能少
- ReentrantLock 可重入锁,功能多
+ 使用 synchronized关键字 - 功能少
+ 使用 ReentrantLock可重入锁 - 功能多
  */
 class TestThreadUnsafe {
     private final String[] array = new String[10];
