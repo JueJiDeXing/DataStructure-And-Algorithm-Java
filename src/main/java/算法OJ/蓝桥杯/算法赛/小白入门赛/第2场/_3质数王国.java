@@ -1,30 +1,31 @@
 package 算法OJ.蓝桥杯.算法赛.小白入门赛.第2场;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StreamTokenizer;
+
 /**
  已AC
  */
 public class _3质数王国 {
-    static StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+    static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    static StreamTokenizer st = new StreamTokenizer(bf);
 
-    static int Int() {
-        try {
-            st.nextToken();
-        } catch (Exception ignored) {
 
-        }
+    static int Int() throws IOException {
+        st.nextToken();
         return (int) st.nval;
     }
 
     static int N = 100010;
     static int[] prime = new int[N];
     static int k = 0;
-    static boolean[] isCom = new boolean[N + 1];
 
     static {
+        boolean[] isCom = new boolean[N + 1];
         for (int i = 2; i <= N; i++) {
-            if (!isCom[i]) {
-                //i是质数
+            if (!isCom[i]) {  //i是质数
                 prime[k++] = i;
             }
             for (int j = 0; j < k; j++) {
@@ -37,7 +38,7 @@ public class _3质数王国 {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         int n = Int();
         long ans = 0;
         for (int i = 0; i < n; i++) {

@@ -18,10 +18,7 @@ public class 完全平方数判定 {
             if (perfectSquare) {
                 System.out.println(i);
             }
-        }
-
-
-    }
+        }    }
 
     public static boolean isPerfectSquare(int num) {
         if (num == 1) return true;

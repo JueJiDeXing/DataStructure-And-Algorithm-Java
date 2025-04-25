@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        canvas {
+            background: #000;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+<script>
+    class Particle {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.targetX = x;
+            this.targetY = y;
+            this.radius = 2;
+            this.active = true;
+        }
+
+        draw(ctx) {
+            if (!this.active) return;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0, 255, 255, ${this.alpha || 0.8})`;
+            ctx.fill();
+        }
+
+        update() {
+            if (!this.active) return;
+            const dx = this.targetX - this.x;
+            const dy = this.targetY - this.y;
+            this.x += dx * 0.1;
+            this.y += dy * 0.1;
+        }
+    }
+
+    class ParticleClock {
+        constructor(canvas) {
+            this.canvas = canvas;
+            this.ctx = canvas.getContext('2d');
+            this.particles = [];
+            this.offscreenCanvas = document.createElement('canvas');
+            this.previousTime = '';
+            this.charRegions = [];
+            this.resize();
+            this.init();
+            this.animate();
+
+            window.addEventListener('resize', () => this.resize());
+            setInterval(() => this.updateTime(), 1000);
+        }
+
+        resize() {
+            const width = 800, height = 400;
+            this.canvas.width = width;
+            this.canvas.height = height;
+            this.offscreenCanvas.width = width;
+            this.offscreenCanvas.height = height;
+            this.center = {
+                x: width / 2,
+                y: height / 2
+            };
+        }
+
+        init() {
+            const num = 500;
+            const radius = Math.min(this.center.x, this.center.y) * 0.8;
+            for (let i = 0; i < num; i++) {
+                const angle = (i / num) * Math.PI * 2;
+                const x = this.center.x + Math.cos(angle) * radius;
+                const y = this.center.y + Math.sin(angle) * radius;
+                this.particles.push(new Particle(x, y));
+            }
+        }
+
+        getCharRegions(time) {
+            const offCtx = this.offscreenCanvas.getContext('2d');
+            offCtx.font = `bold ${this.center.y * 0.8}px monospace`;
+
+            const totalWidth = offCtx.measureText(time).width;
+            const charWidth = offCtx.measureText('0').width; // 等宽字体
+            const startX = this.center.x - totalWidth / 2;
+
+            return Array.from(time).map((_, i) => ({
+                start: startX + i * charWidth,
+                end: startX + (i + 1) * charWidth
+            }));
+        }
+
+        getTargetPoints() {
+            const offCtx = this.offscreenCanvas.getContext('2d');
+            offCtx.clearRect(0, 0, this.offscreenCanvas.width, this.offscreenCanvas.height);
+
+            const time = new Date().toLocaleTimeString();
+            offCtx.fillStyle = 'white';
+            offCtx.font = `bold ${this.center.y * 0.8}px monospace`;
+            offCtx.textAlign = 'left';
+            offCtx.textBaseline = 'middle';
+
+            // 计算字符区域
+            const totalWidth = offCtx.measureText(time).width;
+            const startX = this.center.x - totalWidth / 2;
+            offCtx.fillText(time, startX, this.center.y);
+
+            const imgData = offCtx.getImageData(0, 0, this.offscreenCanvas.width, this.offscreenCanvas.height);
+            const points = [];
+            const gap = 4;
+            const charWidth = offCtx.measureText('0').width;
+
+            for (let y = 0; y < imgData.height; y += gap) {
+                for (let x = 0; x < imgData.width; x += gap) {
+                    const index = (y * imgData.width + x) * 4;
+                    if (imgData.data[index + 3] > 128) {
+                        const charIndex = Math.floor((x - startX) / charWidth);
+                        points.push({
+                            x,
+                            y,
+                            charIndex: charIndex >= 0 ? charIndex : 0
+                        });
+                    }
+                }
+            }
+
+            this.charRegions = this.getCharRegions(time);
+            return {points, time};
+        }
+
+        updateTime() {
+            const {points: targetPoints, time} = this.getTargetPoints();
+            const changedChars = [];
+
+            // 找出变化的字符位置
+            for (let i = 0; i < time.length; i++) {
+                if (time[i] !== this.previousTime[i]) {
+                    changedChars.push(i);
+                }
+            }
+            if (changedChars.length === 0) return;
+
+            // 仅处理变化的字符区域
+            changedChars.forEach(charIndex => {
+                const region = this.charRegions[charIndex];
+                if (!region) return;
+
+                // 获取该字符对应的目标点
+                const charPoints = targetPoints.filter(p => p.charIndex === charIndex);
+                const currentParticles = this.particles.filter(p =>
+                    p.targetX >= region.start &&
+                    p.targetX <= region.end
+                );
+
+                // 调整粒子数量
+                while (currentParticles.length > charPoints.length) {
+                    const particle = currentParticles.pop();
+                    const index = this.particles.indexOf(particle);
+                    this.particles.splice(index, 1);
+                }
+
+                while (currentParticles.length < charPoints.length) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const radius = Math.min(this.center.x, this.center.y) * 0.8;
+                    const newParticle = new Particle(
+                        this.center.x + Math.cos(angle) * radius,
+                        this.center.y + Math.sin(angle) * radius
+                    );
+                    this.particles.push(newParticle);
+                    currentParticles.push(newParticle);
+                }
+
+                // 更新目标位置
+                currentParticles.forEach((p, i) => {
+                    const target = charPoints[i];
+                    if (target) {
+                        p.targetX = target.x;
+                        p.targetY = target.y;
+                        p.active = true;
+                    }
+                });
+            });
+
+            this.previousTime = time;
+        }
+
+        animate() {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.particles.forEach(p => {
+                p.update();
+                p.draw(this.ctx);
+            });
+            requestAnimationFrame(() => this.animate());
+        }
+    }
+
+    const canvas = document.getElementById('canvas');
+    new ParticleClock(canvas);
+</script>
+</body>
+</html>

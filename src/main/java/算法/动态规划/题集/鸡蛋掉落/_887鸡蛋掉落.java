@@ -1,6 +1,7 @@
 package 算法.动态规划.题集.鸡蛋掉落;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  第 97 场周赛 Q4
@@ -24,14 +25,14 @@ public class _887鸡蛋掉落 {
     /**
      令dp[k][n]表示k个鸡蛋n层楼需要的最小操作次数
      当在x层扔鸡蛋:
-     如果鸡蛋碎了,dp[k][n]=dp[k-1][x]+1
-     如果鸡蛋没碎,dp[k][n]=dp[k][n-x]+1
-     所以dp[k][n]= max( dp[k-1][x], dp[k][n-x] ) +1
+     如果鸡蛋碎了, dp[k][n] = dp[k-1][x-1] + 1
+     如果鸡蛋没碎, dp[k][n] = dp[k][n-x] + 1
+     所以dp[k][n]= max( dp[k-1][x-1], dp[k][n-x] ) +1
      <br>
      优化:
-     f(x)=dp[k-1][x]随x单增,g(x)=dp[k][n-x]随x单减
-     那么h(x)=max(dp[k-1][x],dp[k][n-x])最小时应当取f(x)和g(x)的交点处的x
-     由于x是离散的,所以找的是:
+     f(x) = dp[k-1][x-1]随x单增, g(x) = dp[k][n-x]随x单减
+     那么 h(x) = max(dp[k-1][x],dp[k][n-x]) 最小时应当取f(x)和g(x)的交点处的x
+     由于x是离散的, 所以找的是:
      最大的满足f(x)<=g(x)的x0 和 最小的满足f(x)>=g(x)的x1
      然后取二者的最小h(x)即可
      其中x0与x1相差1,x的范围为dp[k][n]的[1,n]的整数
@@ -67,7 +68,7 @@ public class _887鸡蛋掉落 {
     }
 
     /**
-     令 dp[k][m]=n 表示当前有 k 个鸡蛋,可以尝试扔 m 次鸡蛋,这个状态下,最坏情况下最多能确切测试一栋 n 层的楼
+     令 dp[k][m] = n 表示当前有 k 个鸡蛋,可以尝试扔 m 次鸡蛋,这个状态下,最坏情况下最多能确切测试一栋 n 层的楼
      1、无论你在哪层楼扔鸡蛋，鸡蛋只可能摔碎或者没摔碎，碎了的话就测楼下，没碎的话就测楼上。
      2、无论你上楼还是下楼，总的楼层数 = 楼上的楼层数 + 楼下的楼层数 + 1（当前这层楼）。
      dp[k][m] = dp[k][m - 1] + dp[k - 1][m - 1] + 1
@@ -79,9 +80,10 @@ public class _887鸡蛋掉落 {
         int[][] dp = new int[K + 1][N + 1];
         int m = 0;
         while (dp[K][m] < N) {
-            m++;//TODO 二分优化
-            for (int k = 1; k <= K; k++)
-                dp[k][m] = dp[k][m - 1] + dp[k - 1][m - 1] + 1;
+            m++;
+            for (int i = 1; i <= K; i++) {
+                dp[i][m] = dp[i][m - 1] + dp[i - 1][m - 1] + 1;
+            }
         }
         return m;
     }

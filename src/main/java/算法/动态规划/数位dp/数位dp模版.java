@@ -1,19 +1,9 @@
 package 算法.动态规划.数位dp;
 
+import java.util.Scanner;
+
 public class 数位dp模版 {
-    public static void main(String[] args) {
-        int low = 123, high = 1234;
-        String lowStr = String.valueOf(low), highStr = String.valueOf(high);
-        int n = highStr.length();
-        lowStr = repeat("0", n - (""+low).length()) + lowStr;
-        int res1 = dfs(0, true, highStr) - dfs(0, true, String.valueOf(low - 1));
-        int res2 = dfs(0, true, true, lowStr, highStr);
-    }
-    static String repeat(String s, int n) {
-        StringBuilder ans = new StringBuilder();
-        for (int i = 0; i < n; ++i) ans.append(s);
-        return ans.toString();
-    }
+
     /**
      <h1> 数位dp基础版</h1>
      解决[0,high]上的数位问题,如果区间是[low,high]则需要调用两次,dfs(high)-dfs(low-1)

@@ -10,7 +10,7 @@ public class _55跳跃游戏I {
     /**
      <h1>动态规划</h1>
      dp[i]:从索引i位置能跳到的最远距离<br>
-     状态转移方程:dp[i]=max(dp[i-1],i+nums[i])<br>
+     状态转移方程:dp[i] = max(dp[i-1],i+nums[i])<br>
      i+nums[i] 表示直接从索引i起跳的最远位置, dp[i-1] 为上一个最远到达位置<br>
      如果索引i无法到达(i>dp[i-1]),则返回false
      */
@@ -59,7 +59,7 @@ public class _55跳跃游戏I {
         for (int i = n - 2; i >= 0; i--) {//倒序判断前面的索引能否到达目的地
             //判断索引i位置能否到达flag
             if (nums[i] >= flag - i) {
-                //能到达,更新 最近的 能到达目的地 的 下标 为i
+                //能到达, 更新 最近的 能到达目的地 的 下标 为i
                 flag = i;
             }
         }

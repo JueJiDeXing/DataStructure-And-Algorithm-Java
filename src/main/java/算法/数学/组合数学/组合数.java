@@ -6,8 +6,23 @@ package 算法.数学.组合数学;
 public class 组合数 {
 
     /**
+     <h2>阶乘式</h2>
+     C(n, m) = A(n,n) / A(m,m) / A(n-m,n-m)
+     <p>
+     有两种水果,苹果m个和香蕉n-m个,求其排列数
+     <p>
+     将水果全部看作同一种,有n!种方案
+     再将重复的方案去除:
+     对于某一特定排列, 固定香蕉位置,苹果内部有m!种排列,同理,香蕉内部有n-m!种排列
+     根据乘法原理, 重复数量为 m!(n-m)!种
+     即: n! / m!(n-m)!
+
+     <h2>递推式</h2>
      C(n, m) = C(n - 1, m) + C(n - 1, m - 1)
-     右式含义:对于某个项考虑选出的组合是否包含它
+     <p>
+     每个项有选和不选两种方案:
+     如果不选, 剩余n-1个数,需要选m个, C(n-1,m)
+     如果选, 剩余n-1个数,需要选m-1个, C(n-1,m-1)
      */
     public long C(int n, int m) {
         if (m > n || n < 0) return 0;
@@ -44,23 +59,23 @@ public class 组合数 {
      组合数C(n,m) = n! / ((n-m)! m!)
      */
     public int C4(int n, int m) {
-        return fact[n] * inv[m] % MOD * inv[n - m] % MOD;
+        return fact[n] * invFact[m] % MOD * invFact[n - m] % MOD;
     }
 
     int N = 1000001, MOD = 998244353;
-    int[] fact = new int[N], inv = new int[N];//fac[i]=i!, inv[i]为i!在模p下的逆元
+    int[] fact = new int[N], invFact = new int[N];//fac[i]=i!, invFact[i]为i!在模p下的逆元
 
     /**
      取模性质对除法不适用,所以需要逆元,用乘法代替除法
      预处理出阶乘数组和乘法逆元数组
      */
-    void init(int n) {
-        for (int i = 1; i <= 2 * n; i++) {//求阶乘
+    void init() {
+        for (int i = 1; i < N; i++) {//求阶乘
             fact[i] = fact[i - 1] * i % MOD;
         }
-        inv[2 * n] = fastPow(fact[2 * n]);
-        for (int i = 2 * n; i > 0; i--) {//倒序递推求逆元
-            inv[i - 1] = inv[i] * i % MOD;
+        invFact[N - 1] = fastPow(fact[N - 1]);
+        for (int i = N - 1; i > 0; i--) {//倒序递推求逆元
+            invFact[i - 1] = invFact[i] * i % MOD;
         }
     }
 

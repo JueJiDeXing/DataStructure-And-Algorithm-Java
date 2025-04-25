@@ -50,11 +50,12 @@ public class 平方和 {
         int[] ans = new int[q];
         int l = 1, r = 0;//当前处理的区间
         for (int i = 0; i < q; i++) {
-            while (l > questions[i].l) Add(--l);
-            while (r < questions[i].r) Add(++r);
-            while (l < questions[i].l) Sub(l++);
-            while (r < questions[i].r) Sub(r--);
-            ans[questions[i].id] = res;
+            Q qs = questions[i];
+            while (l > qs.l) Add(--l);
+            while (r < qs.r) Add(++r);
+            while (l < qs.l) Sub(l++);
+            while (r < qs.r) Sub(r--);
+            ans[qs.id] = res;
         }
         for (int i = 0; i < q; i++) {
             System.out.println(ans[i]);

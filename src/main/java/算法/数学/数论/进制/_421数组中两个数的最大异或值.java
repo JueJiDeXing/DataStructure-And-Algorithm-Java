@@ -13,12 +13,12 @@ public class _421数组中两个数的最大异或值 {
      令 pre[k][n] 表示 n 的二进制前 k 位 <br>
      那么有 pre[k][a] ^ pre[k][b] = pre[k][x] <br>
      <p>
-     令 xCurr = pre[k][x] , xNext = pre[k+1][x] <br>
+     令 xCurr = pre[k][x] <br>
      在已知 xCurr 情况下,要得到最大的 x ,那么需要尽可能考虑 xNext 是否可以为 1 <br>
      <p>
      所以总体做法是:<br>
      从高位开始枚举这位是否可以为 1 (不改变前面的情况下)<br>
-     对于第 k 轮枚举,xNext = (xCurr<<1) + 1<br>
+     对于第 k 轮枚举, xNext = (xCurr<<1) + 1<br>
      判断数组中是否有两个数 pre[k][a] ^ pre[k][b] = xNext<br>
      如果有,则 xCurr = xNext, 否则该位只能为 0 , xCurr = xNext - 1 <br>
      */

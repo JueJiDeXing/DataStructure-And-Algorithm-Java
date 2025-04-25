@@ -65,7 +65,6 @@ public class 斐波那契 {
      矩阵乘法
      */
     static long[][] multiply(long[][] m1, long[][] m2) {
-
         int p = m1[0].length;//m1的列数==m2的行数
         if (p != m2.length) throw new RuntimeException("这两个矩阵无法相乘");
         int row1 = m1.length, col2 = m2[0].length;

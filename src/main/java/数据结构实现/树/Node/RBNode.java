@@ -11,6 +11,9 @@ public class RBNode {
 
     public int key;
     public Object value;
+    /**
+     默认为红色节点
+     */
     public Color color = RED;
     public RBNode left, right, parent;
 

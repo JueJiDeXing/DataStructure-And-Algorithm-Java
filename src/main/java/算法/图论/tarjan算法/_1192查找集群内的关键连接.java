@@ -1,6 +1,8 @@
 package 算法.图论.tarjan算法;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  第 154 场周赛 Q4
@@ -16,11 +18,11 @@ public class _1192查找集群内的关键连接 {
 
     关键连接 是在该集群中的重要连接，假如我们将它移除，便会导致某些服务器无法访问其他服务器。
 
-    请你以任意顺序返回该集群内的所有 关键连接 。
+    请你以任意顺序返回该集群内的所有 关键连接
      */
     public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
         // 常规生成邻接表
-        List<Integer>[] graph = new List[n];
+        List<Integer>[] graph = new ArrayList[n];
         Arrays.setAll(graph, k -> new ArrayList<>());
         for (List<Integer> e : connections) {
             int u = e.get(0), v = e.get(1);
@@ -40,16 +42,15 @@ public class _1192查找集群内的关键连接 {
     private void dfs(int u, int pa, List<Integer>[] graph, int[] time, int[] low, List<List<Integer>> ans) {
         low[u] = time[u] = ++num;
         for (int v : graph[u]) {
+            if (v == pa) continue; // 无向图
             if (time[v] == 0) { // 节点v未访问
                 dfs(v, u, graph, time, low, ans);
-                low[u] = Math.min(low[u], low[v]);//?
-                if (low[v] > time[u]) { //发现桥边，添加到结果集
+                low[u] = Math.min(low[u], low[v]);
+                if (low[v] > time[u]) { //发现桥边, 添加到结果集
                     ans.add(Arrays.asList(u, v));
                 }
-            } else if (time[v] < time[u] && v != pa) {
-                // v 已经在 u 之前被访问过了。
-                // 因为是无向图，u 可以反向访问到其 【dfs搜索树】上的父节点，此时需要跳过。
-                low[u] = Math.min(low[u], time[v]);//?
+            } else if (time[v] < time[u]) {// v 已经在 u 之前被访问过了
+                low[u] = Math.min(low[u], time[v]);
             }
         }
     }

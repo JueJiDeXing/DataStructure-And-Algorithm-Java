@@ -3,10 +3,6 @@ package 算法.数学.数论.进制.数对和;
 import 算法OJ.牛客.小白月赛.小白月赛91.F_异或世界;
 
 public class ai异或aj的和 {
-    public static void main(String[] args) {
-        int[] A = new int[]{1, 2, 3, 4};
-        System.out.println(sum2(A));
-    }
 
     /**
      求 sum{ ai ^ aj } 1 <= i < j <= n

@@ -7,7 +7,6 @@ import java.util.ArrayList;
  */
 public class 逆序对 {
 
-
     public static long cal(int[] arr) {
         ArrayList<Integer> list = new ArrayList<>();
         long ans = 0;

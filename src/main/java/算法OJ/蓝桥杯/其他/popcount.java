@@ -1,8 +1,22 @@
 package 算法OJ.蓝桥杯.其他;
 
 import java.util.Scanner;
-
+/*
+未解决
+ */
 public class popcount {
+    /*
+    popcount(i)表示二进制下,i的1个数
+
+    给定L,R,p
+    求x∈[L,R],  popcount(x)之积 (mod p)
+     */
+
+    /*
+    此处为数位dp做法,但是超时了
+
+    应该使用贡献法
+     */
     static String L, R;
     static long p;
 
@@ -10,31 +24,22 @@ public class popcount {
         Scanner sc = new Scanner(System.in);
         long l = sc.nextLong(), r = sc.nextLong();
         p = sc.nextLong();
+
         L = Long.toBinaryString(l);
         R = Long.toBinaryString(r);
         L = "0".repeat(R.length() - L.length()) + L;
-        //System.out.println(L);
-        //System.out.println(R);
-        int[] cnt = new int[L.length()];
-        for (int i = 2; i < L.length(); i++) {// 填i个1的方案数
+
+        int len = L.length();
+        int[] cnt = new int[len];
+        for (int i = 2; i < len; i++) {// popcount(x)=i的x个数
             cnt[i] = dfs(0, true, true, i);
         }
-        //System.out.println(Arrays.toString(cnt));
+
         long ans = 1;
-        for (int i = 2; i < L.length(); i++) {
+        for (int i = 2; i < len; i++) {// popcount = i 的数有cnt[i]个
             ans = ans * pow(i, cnt[i]) % p;
         }
         System.out.println(ans);
-    }
-
-    static long pow(long x, long n) {
-        long ans = 1;
-        while (n != 0) {
-            if ((n & 1) == 1) ans = ans * x % p;
-            x = x * x % p;
-            n >>= 1;
-        }
-        return ans;
     }
 
     static int dfs(int i, boolean isLimitLow, boolean isLimitHigh, int cnt) {
@@ -62,6 +67,15 @@ public class popcount {
             // 对于low: 如果前面是limit,这位填1,当是1时是limit;是0时不再是limit
             // 对于high: 如果前面是limit,这位填1,仍是limit
             ans = (ans + dfs(i + 1, isLimitLow && L.charAt(i) == '1', isLimitHigh, cnt - 1));
+        }
+        return ans;
+    }
+     static long pow(long x, long n) {
+        long ans = 1;
+        while (n != 0) {
+            if ((n & 1) == 1) ans = ans * x % p;
+            x = x * x % p;
+            n >>= 1;
         }
         return ans;
     }

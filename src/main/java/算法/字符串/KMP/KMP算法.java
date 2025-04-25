@@ -14,23 +14,25 @@ public class KMP算法 {
     next[j]:使用前j-1个字符时,最长前后缀的长度,表示匹配失败时j的跳转位置
 
     例: 模式串为 a b a b a ...
-    使用前5个字符时
+    若前5个字符都匹配
+                ↓
     (a b a) b a ...
     a b (a b a) ...
-    最长相同前后缀的长度为3,next[6]=3
+    最长相同前后缀的长度为3, next[6]=3
     在匹配第6个字符时,如果不匹配,则回退到索引3处
+    括号内为匹配的部分
      */
     public int strStr(String haystack, String needle) {
         char[] origin = haystack.toCharArray();//原始
-        char[] pattern = needle.toCharArray();//模式
+        char[] pattern = needle.toCharArray();//模式(在origin中查找pattern)
         int[] next = getNext(pattern);
         int i = 0, j = 0;
-        //while (i < origin.length) {
+        //while (i < origin.length)
         while (pattern.length - j <= origin.length - i) {
             if (pattern[j] == origin[i]) {//匹配成功,匹配下一位
                 i++;
                 j++;
-                if (j == pattern.length) return i - j;//全部匹配
+                if (j == pattern.length) return i - j;//全部匹配, i-j为origin匹配的开始位置
             } else if (j == 0) {//第0位不匹配
                 i++;
             } else {//在某处不匹配跳过最长前后缀
