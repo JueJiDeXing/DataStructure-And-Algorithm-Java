@@ -22,11 +22,13 @@ public class 完全平方数判定 {
 
     public static boolean isPerfectSquare(int num) {
         if (num == 1) return true;
+        // 平方数的个位数字:0,1,4,5,6,9
         int L = num % 10;
         if (L == 2 || L == 3 || L == 7 || L == 8) return false;
+        // x % 4 = 2或3 => x不是完全平方数
         L = num % 4;
         if (L == 2 || L == 3) return false;
-        //判定不了,还是得去开方
+        //判定不了, 还是得去开方
         int sqrt = (int) Math.sqrt(num);
         return sqrt * sqrt == num;
     }

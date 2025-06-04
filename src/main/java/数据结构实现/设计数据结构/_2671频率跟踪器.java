@@ -15,14 +15,13 @@ class FrequencyTracker {
     }
 
     public void add(int number) {
-        if (!numToFreq.containsKey(number)) {
-            numToFreq.put(number, 1);
+        if (!numToFreq.containsKey(number)) {//不存在
+            numToFreq.put(number, 1);// 频次1
             freqToCount.put(1, freqToCount.getOrDefault(1, 0) + 1);
-        } else {
-            int freq = numToFreq.get(number);
+        } else {//存在
+            int freq = numToFreq.get(number);//原频次
             numToFreq.put(number, freq + 1);
-            int count = freqToCount.getOrDefault(freq, 0);
-            freqToCount.put(freq, count == 0 ? 0 : count - 1);
+            freqToCount.put(freq, freqToCount.get(freq) - 1);// freqCnt > 0
             freqToCount.put(freq + 1, freqToCount.getOrDefault(freq + 1, 0) + 1);
         }
     }
@@ -30,9 +29,8 @@ class FrequencyTracker {
 
     public void deleteOne(int number) {
         int freq = numToFreq.getOrDefault(number, 0);
-        if (freq == 0) {
-            return;
-        }
+        if (freq == 0) return;
+
         numToFreq.put(number, freq - 1);
         freqToCount.put(freq, freqToCount.get(freq) - 1);
         freqToCount.put(freq - 1, freqToCount.getOrDefault(freq - 1, 0) + 1);

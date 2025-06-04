@@ -17,7 +17,7 @@ public class _287寻找重复数 {
         int slow = nums[0], fast = nums[nums[0]];
         while (slow != fast) {
             slow = nums[slow];
-            fast = nums[nums[fast]];
+            fast = nums[nums[fast]];// 一定有环
         }
         int pre1 = 0, pre2 = slow;
         while (pre1 != pre2) {

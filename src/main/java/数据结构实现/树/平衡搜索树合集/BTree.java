@@ -1,7 +1,6 @@
 package 数据结构实现.树.平衡搜索树合集;
 
 import 数据结构实现.树.Node.BNode;
-//已测试:src.java.数据结构与算法.基础数据结构算法.树.平衡搜索树合集.TestBTree
 /**
  <h1>B树(Balance) </h1>
  B树的高度低,磁盘IO次数少,适合磁盘存储<br>
@@ -9,13 +8,14 @@ import 数据结构实现.树.Node.BNode;
  */
 public class BTree {
 
-    //度/阶:节点孩子数
-    /*B树特性
-    1.每个节点最多有m个孩子,m为阶
-    2.除根与叶子,其他每个节点至少有ceil(m/2)个孩子
-    3.所有叶子节点都在同一层
-    4.每个非叶子节点由n个key和n+1个指针组成(有n+1个孩子)
-    5.key为升序排列:节点内keys[i]<=keys[i+1] , p[i]指向key值位于keys[i]~keys[i+1]的子树
+    //度|阶:节点孩子数
+
+    /* B树特性
+    1. 每个节点最多有m个孩子, m为阶
+    2. 除根与叶子,其他每个节点至少有ceil(m/2)个孩子
+    3. 所有叶子节点都在同一层
+    4. 每个非叶子节点由n个key和n+1个指针组成(有n+1个孩子)
+    5. key为升序排列: 节点内keys[i]<=keys[i+1] , p[i]指向key值位于keys[i]~keys[i+1]的子树
     孩子数: ceil(m/2) ~ m
     key数: ceil(m/2)-1 ~ m-1
      */
@@ -52,13 +52,14 @@ public class BTree {
      @param index  分裂时node节点的中间key插入到parent的位置
      */
     private void doPut(BNode node, int key, Object value, BNode parent, int index) {
-        int i = 0;//寻找插入位置
+        //寻找插入位置
+        int i = 0;
         while (i < node.keyNumber) {
             if (node.keys[i] == key) {
-                node.values[i] = value;//找到相同的key,更新
+                node.values[i] = value;//找到相同的key, 更新
                 return;
             }
-            if (node.keys[i] > key) {//遇到更大的key,需要到下一层寻找
+            if (node.keys[i] > key) {//遇到更大的key, 需要到下一层寻找
                 break;
             }
             i++;

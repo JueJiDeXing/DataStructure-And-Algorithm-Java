@@ -31,9 +31,13 @@ public class Heap {
      1. 找到最后一个非叶子节点<br>
      2. 从后往前依次找非叶子节点进行下潜<br>
      <h2>时间复杂度:</h2>
-     总交换次数:最底层交换0次,倒数第二层交换1次,...,第i层交换i-1次<br>
-     [i=1 ~ h] ∑ ( (2^h / 2^i) * (i - 1) ) = 2^h - h - 1  <br>
-     由于2^h ≈ n, h≈ log_2_ n ,所以时间复杂度为O(n)
+     总交换次数:第1层交换h-1次,第二层交换h-2次,...,第h层交换0次<br>
+     由于2^h ≈ n, h ≈ log_2_ n <br>
+     第i层有2^(i-1)个元素, 交换2^(i-1)*(h-i)次<br>
+     S = 2^0 * (h-1) + 2^1 * (h-2) + ... + 2^(h-2) * 1 <br>
+     2S =              2^1 * (h-1) + 2^2 * (h-2) + ... + 2^(h-1) * 1 <br>
+     错位相减: S = -(h-1) + 2^1+2^2+...+2^(h-1) = 2^h - h - 1 = n - h - 1<br>
+     所以时间复杂度为O(n)<br>
      */
     public void heapify() {
         for (int i = size / 2 - 1; i >= 0; i--) {
@@ -60,9 +64,8 @@ public class Heap {
      添加元素
      */
     public void offer(int offered) {
-        if (isFull()) {
-            grow();//扩容
-        }
+        if (isFull()) grow();//扩容
+        // 插入
         up(offered);
         size++;
     }
@@ -94,7 +97,7 @@ public class Heap {
     }
 
     /**
-     删除堆顶元素
+     弹出堆顶元素
 
      @return 堆顶元素值
      */
@@ -110,7 +113,10 @@ public class Heap {
         return value;
     }
 
-    //小元素上浮
+    /**
+     小元素上浮
+     视为将offered添加到了array[size]处,但size还未更新
+     */
     private void up(int offered) {
         int child = size;
 
@@ -127,7 +133,7 @@ public class Heap {
         array[child] = offered;//插入
     }
 
-    //大的元素下潜
+    /**大的元素下潜*/
     public void down(int parent) {
         int left = 2 * parent + 1;
         int right = left + 1;
@@ -151,9 +157,7 @@ public class Heap {
     }
 
     public int peek() {
-        if (isEmpty()) {
-            throw IllegalIndex(0);
-        }
+        if (isEmpty()) throw IllegalIndex(0);
         return array[0];//返回堆顶元素
     }
 

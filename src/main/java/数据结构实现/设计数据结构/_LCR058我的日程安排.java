@@ -69,10 +69,10 @@ class MyCalendar2 {
         //查询最近的两个区间
         Map.Entry<Integer, Integer> entry1 = map.floorEntry(start);
         Map.Entry<Integer, Integer> entry2 = map.ceilingEntry(start);
-        if (entry1 != null && entry1.getValue() > start) {//判断是否有重复
+        if (entry1 != null && entry1.getValue() > start) { // start1 start end1
             return false;
         }
-        if (entry2 != null && entry2.getKey() < end) {
+        if (entry2 != null && entry2.getKey() < end) {// start start2 end
             return false;
         }
         //无重复,添加

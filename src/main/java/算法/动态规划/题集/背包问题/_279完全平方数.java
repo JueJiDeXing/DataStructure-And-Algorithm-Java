@@ -31,7 +31,7 @@ public class _279完全平方数 {
     public int numSquares2(int n) {
         /*
         dp[i]最大容量为i时的最少个数
-        dp[i]=MIN(dp[i-j*j]) 其中1<=j*j<=i,寻找可放入j中,哪一种选择会使个数最少
+        dp[i] = MIN(dp[i-j*j]) + 1 其中1<=j*j<=i,寻找可放入j中,哪一种选择会使个数最少
         */
         int[] dp = new int[n + 1];
         // dp[1] = 1;
